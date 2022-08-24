@@ -1,0 +1,90 @@
+@import './mixin.scss';
+
+.container {
+    max-width: 1620px;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left:-15px;
+    margin-right:-15px;
+}
+.col-12 {
+    @include fb(100%);
+    padding: 0px 15px;
+}
+.col-9 {
+    @include fb(75%);
+    padding: 0px 15px;
+}
+.col-8 {
+    @include fb(66%);
+    padding: 0px 15px;
+}
+.col-6 {
+    @include fb(50%);
+    padding: 0px 15px;
+}
+.col-5 {
+    @include fb(42.666%);
+    padding: 0px 15px;
+}
+.col-4 {
+    @include fb(33.33%);
+    padding: 0px 15px;
+}
+.col-3 {
+    @include fb(25%);
+    padding: 0px 15px;
+}
+.col-2 {
+    @include fb(16.66%);
+    padding: 0px 15px;
+}
+
+@media(max-width: 1024px){
+    .col-md-9 {
+        @include fb(75%);
+        padding: 0px 15px;
+    }
+    .col-md-6 {
+        @include fb(50%);
+        padding: 0px 15px;
+    }
+    .col-md-4 {
+        @include fb(25%);
+        padding: 0px 15px;
+    }
+    .col-md-3 {
+        @include fb(33.33%);
+        padding: 0px 15px;
+    }
+    .col-md-2 {
+        @include fb(16.66%);
+        padding: 0px 15px;
+    }
+}  
+@media(max-width: 767px){
+    .col-sm-9 {
+        @include fb(75%);
+        padding: 0px 15px;
+    }
+    .col-sm-6 {
+        @include fb(50%);
+        padding: 0px 15px;
+    }
+    .col-sm-4 {
+        @include fb(25%);
+        padding: 0px 15px;
+    }
+    .col-sm-3 {
+        @include fb(33.33%);
+        padding: 0px 15px;
+    }
+    .col-sm-2 {
+        @include fb(16.66%);
+        padding: 0px 15px;
+    }
+}  

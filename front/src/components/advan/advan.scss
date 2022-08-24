@@ -1,0 +1,48 @@
+@import '../../assets/css/mixin.scss';
+
+.advan {
+    &__long {
+        background-color: #F0EEFF;
+        padding: 55px 0px;
+        margin-top: 60px;
+        margin-bottom: 100px;
+        .advan {
+            margin-top: 0;
+            margin-bottom: 0;
+            &__img {
+                background-color: $violet;
+                img {
+                    filter: brightness(0) invert(1);
+                }
+            }
+        }
+    }
+    margin-top: 60px;
+    margin-bottom: 100px;
+    &__box {
+        display: flex;
+        align-items: center;
+    }
+    &__img {
+        margin-right: 25px;
+        width: 60px;
+        height: 60px;
+        border-radius: 14px;
+        background-color: #F0EEFF;
+        @include center
+    }
+    &__info{
+        flex: 1;
+    }
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+    &__text {
+        color: #AAAAAA;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 19px;
+    }
+}

@@ -1,0 +1,226 @@
+@import '../../assets/css/mixin.scss';
+
+
+.grid {
+    &.col-3,
+    &.col-md-4,
+    &.col-sm-6 {
+        padding: 0px;
+        .gpro {
+            &__box {
+                padding: 20px;
+                border-radius: 14px;
+                border: 1px solid #f0f0f0;
+                text-align: center;
+                &:hover {
+                    .gpro {
+                        &__hide{
+                            height: auto;
+                        }
+                        &__show {
+                            height: 0;
+                        }
+                    }
+                }
+            }
+            &__img {
+                @include bg;
+                height: 321px;
+                position: relative;
+                border-radius: 20px;
+            }
+            &__fav {
+                width: 50px;
+                height: 50px;
+                border-radius: 14px;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #fff;
+                color: $violet;
+                transition: .3s;
+                &:hover {
+                    background-color: $violet;
+                    path {
+                        fill: #fff;
+                    }
+                }
+            }
+            &__title {
+                padding: 17px 0px 6px;
+                display: block;
+                font-size: 20px;
+                font-weight: 700;
+                width: 100%;
+            }
+            &__genre {
+                font-size: 14px;
+                margin-bottom: 13px;
+                color: $violet;
+            }
+            &__review {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                img {
+                    margin: 0px 4px;
+                }
+            }
+            &__old {
+                font-size: 18px;
+                color: #aaa;
+                text-decoration: line-through;
+            }
+            &__new {
+                font-size: 24px;
+                font-weight: 700;
+                color: $violet;
+                margin-bottom: 5px;
+            }
+            &__cart {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                img {
+                    margin-right: 17px;
+                }
+            }
+            &__hide {
+                overflow: hidden;
+                height: 0;
+                transition: .4s;
+            }
+            &__show{
+                overflow: hidden;
+                transition: .4s;
+            }
+        }
+    }
+}
+
+.lprobox {
+    border: 1px solid #f0f0f0;
+    padding: 25px;
+    border-radius: 14px;
+    display: flex;
+    margin-bottom: 30px;
+    &__img {
+        @include fb(229px);
+        border-radius: 20px;
+        height: 321px;
+        @include bg;
+    }
+    &__right {
+        flex: 1;
+        margin-left: 33px;
+        display: flex;
+        flex-direction: column;
+    }
+    &__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+    &__title {
+        font-size: 30px;
+        font-weight: 700;
+    }
+    &__genre {
+        color: #6C5DD3;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: uppercase;
+    }
+    &__stars {
+        img {
+            margin-left: 8px;
+        }
+    }
+    &__review {
+        text-align: right;
+        &--value {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0px 8px;
+        }
+        &--count {
+            font-size: 14px;
+            color: #aaa;
+        }
+    }
+    &__text {
+        font-size: 14px;
+        color: $black;
+    }
+    &__newprice {
+        font-size: 28px;
+        font-weight: 700;
+        margin-right: 15px;
+        
+    } 
+    &__oldprice {
+        font-weight: 600;
+        font-size: 20px;
+        text-decoration: line-through;
+        color: #aaa;
+        margin-right: 36px;
+        font-weight: 600;
+    }
+    &__promo {
+        border: 1px solid $orange;
+        padding: 8px 14px;
+        border-radius: 14px;
+        color: $orange ;
+        margin-right: 10px;
+        transition: .3s;
+        font-weight: 600;
+        &:hover {
+            background-color: $orange;
+            color: #fff;
+        }
+    }
+    &__more {
+        border: transparent;
+        border-radius: 14px;
+        padding: 8px 14px;
+        background-color: #F0F0F0;
+        color: #aaa;
+        display: block;
+        line-height: 26px;
+    }
+    &__bottom {
+        margin-top: auto;
+    }
+    &__item {
+        margin-right: 60px;
+    }
+    &__name {
+        font-size: 14px;
+        color: #aaa;
+    }
+    &__value {
+        font-size: 18px;
+        font-weight: 700;
+    }
+    &__button {
+        margin-left: auto;
+        padding: 18px 50px;
+        img {
+            margin-right: 17px;
+        }
+    }
+    &__fav {
+        margin-left: 18px;
+        width: 60px;
+        height: 60px;
+        &:hover {
+            path {
+                fill: #fff;
+            }
+        }
+    }
+}

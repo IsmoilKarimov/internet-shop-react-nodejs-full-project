@@ -1,0 +1,59 @@
+@import '../css/mixin.scss';
+$maxw: 957px; 
+.steps {
+    max-width: $maxw;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    margin-bottom: 70px;
+    &__item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &:last-child .steps__status::before {
+            background-color: #fff;
+        }
+    }
+    &__status {
+        width: 48px;
+        height: 48px;
+        border: 8px solid #e1e1e1;
+        background-color: #fff;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        &::before {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 12vw;
+            background-color: #e1e1e1;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            left: calc(100% + 8px);
+            display: inline-block;
+            z-index: 1;
+        }
+        &.completed {
+            background-color: $violet;
+            border-color: $violet;
+            background-image: url('../img//check.svg');
+            @include bg;
+            background-size: auto;
+            &::before {
+                background-color: $violet;
+            }
+        }
+        &.current {
+            background-color: #e1e1e1;
+        }
+    }
+    &__title {
+        font-weight: 600;
+        font-size: 18px;        
+    }
+}

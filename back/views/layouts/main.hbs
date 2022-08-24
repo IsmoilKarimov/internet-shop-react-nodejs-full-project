@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+{{> head}}
+<body>
+    <div id="main-wrapper">
+        {{> nav}}
+        {{> header}}
+        {{> sidebar}}
+        <div class="content-body">
+            <div class="container-fluid">
+                {{{body}}}
+            </div>
+        </div>
+    </div>
+
+    {{>scripts}}
+</body>
+</html>

@@ -1,0 +1,27 @@
+@import '../../assets/css/mixin.scss';
+
+.breadcrumbs {
+    padding: 23px 0px;
+    ul {
+        display: flex;
+        li{
+            &:last-child {
+                a {
+                    color: #aaa;
+                    pointer-events: none;
+                    cursor: default;
+                }
+            }
+        }
+        a {
+            color: $violet;
+            font-weight: 600;
+            font-size: 16px;
+            &::after {
+                content: '/';
+                margin-right: 10px;
+                margin-left: 5px;
+            }
+        }
+    }
+}

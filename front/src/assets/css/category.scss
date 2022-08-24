@@ -1,0 +1,194 @@
+@import './mixin.scss';
+
+.cat{
+    &__tool {
+        display: flex;
+        align-items: center;
+        border: 1px solid #f0f0f0;
+        border-radius: 14px;
+        margin-bottom: 28px;
+        &--list {
+            display: flex;
+            align-items: center;
+            padding: 15px 6px;
+            a {
+                margin: 0px 18px;
+                &.active {
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+    &__list {
+        margin: 0px 9px;
+        margin-left: auto;
+        &.active,
+        &:hover {
+            path {
+                fill: $violet;
+            }
+        }
+    }
+    &__grid {
+        &.active,
+        &:hover {
+            path {
+                fill: $violet;
+            }
+        }
+        margin-left: auto;
+        margin: 0px 9px;
+    }
+    &__sort {
+        padding: 15px 30px;
+        border-left: 1px solid #f0f0f0;
+        margin-left: 21px;
+        display: flex;
+        align-items: center;
+        img {
+            margin-right: 16px;
+        }
+        select {
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            &:focus {
+                outline: 0;
+            }
+        }
+    }
+}
+
+.filtr {
+    &__row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    &__checkbox {
+        @include fb(50%);
+        margin-bottom: 18px;
+        input {
+            display: none;
+            &:checked+label {
+                &::before{
+                    border-color: $violet;
+                    background-color: $violet;
+                    background-image: url('../img/check.svg');
+                    content: '';
+                    @include bg;
+                    background-size: auto;
+                }
+            }
+        }
+        label {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            color: $black;
+            cursor: pointer;
+            &::before {
+                content: '';
+                width: 24px;
+                height: 24px;
+                border-radius: 3px;
+                display: inline-block;
+                border: 2.5px solid #8D8D8D;
+                margin-right: 15px;
+            }
+        }
+    }
+    &__box {
+        border: 1px solid #f0f0f0;
+        border-radius: 14px;
+        margin-bottom: 18px;
+    }
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        padding: 30px;
+        color: $black;
+        position: relative;
+        border-bottom: 1px solid #f0f0f0;
+        cursor: pointer;
+        &.open {
+            &+.filtr__body {
+                height: auto;
+                padding: 30px;
+            }
+            &::after{
+                transform: rotate(180deg);
+            }
+        }
+        &::after {
+            content: '';
+            width: 16px;
+            height: 16px;
+            transition: .3s;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 30px;
+            margin: auto;
+            background: url('../img/down.svg') no-repeat center center/contain;
+        }
+    }
+    &__body {
+        padding: 0 30px;
+        overflow: hidden;
+        height: 0;
+        transition: .3s;
+        .dropdown {
+            &__title {
+                font-size: 18px;
+                font-weight: 700;
+                margin-bottom: 13px;
+                display: flex;
+                align-items: center;
+                &:hover {
+                    color: $violet;
+                    span {
+                        color: $violet;
+                    }
+                }
+                &.open {
+                    color: $violet;
+                    span {
+                        color: $violet;
+                    }
+                    &::before{
+                        content: '-';
+                    }
+                    &+.dropdown__list{
+                        height: auto;
+                        margin-bottom: 35px;
+                    }
+                }
+                cursor: pointer;
+                span {
+                    color:  #8D8D8D;
+                    margin-left: 5px;
+                }
+                &::before {
+                    content: '+';
+                    margin-right: 5px;
+                }                
+            }
+            &__list {
+                margin-left: 35px;
+                margin-bottom: 0px;
+                height: 0;
+                overflow: hidden;
+                a {             
+                    font-weight: 400;
+                    font-size: 18px;
+                    margin-bottom: 10px; 
+                    &:hover{
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}

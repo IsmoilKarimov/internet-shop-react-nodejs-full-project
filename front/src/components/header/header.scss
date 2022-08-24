@@ -1,0 +1,161 @@
+@import '../../assets/css/mixin.scss';
+
+.header {
+    padding: 33px 0px;
+    border-bottom: 1px solid #F0F0F0;
+    position: relative;
+    z-index: 3;
+    .container {
+        display: flex;
+        align-items: center;
+    }
+    &__logo {
+        display: flex;
+        align-items: center;
+        img{
+            margin-right: 19px;
+        }
+        &--right{
+            display: flex;
+            flex-direction: column;
+        }
+        &--name {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        &--slogan{
+            font-size: 13px;
+            font-weight: 300;
+        }
+    }
+    &__user {
+        width: 177px;
+        margin-left: 30px;
+        img {
+            margin-right: 20px;
+        }
+    }
+    &__btn {
+        border: 1px solid #F0F0F0;
+        width: 60px;
+        position: relative;
+        margin-left: 30px;
+        &:hover {
+            img {
+                filter: brightness(0) invert(1);
+            }
+        }
+        img {
+            filter: brightness(0);
+        }
+        span {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: $orange;
+            color: #fff;
+            top: -3px;
+            right: -6px;
+            font-size: 14px;
+            display: flex;
+            @include center
+        }
+    }
+    &__search {
+        flex: 1;
+        border: 1px solid #e1e1e1;
+        border-radius: 14px;
+        margin-left: 130px;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    &__menu {
+        padding: 0px 28px;
+        color: $violet;
+        transition: .4s;
+        position: relative;
+        &.show {
+            border-bottom-left-radius: 0px;
+            background-color: $violet;
+            color: #fff;
+            transition: .3s;
+            img {
+                filter: brightness(0) invert(1);
+            }
+            .cats {
+                height: auto;
+                padding:10px 0px;
+                opacity: 1;
+            }
+        }
+        .cats {
+            position: absolute;
+            width: 100%;
+            top: 90%;
+            left: 0;
+            z-index: 1;
+            background: #fff;
+            z-index: 1;
+            height: 0;
+            overflow: hidden;
+            border: 1px solid $violet;
+            border-top: 10px solid $violet;
+            padding: 0px 10px;
+            opacity: 0;
+            a {
+                padding: 10px;
+                display: block;
+                font-size: 16px;
+                font-weight: 500;
+                text-align: left;
+                border-bottom: 1px solid #e1e1e1;
+                &:hover {
+                    color: $violet;
+                }
+            }
+        }
+       &.btn {
+            border-right: 1px solid #e1e1e1;
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+       }
+        span{
+            margin: 0px 17px;
+        }
+        &:hover {
+            background-color: $violet;
+            color: #fff;
+            transition: .4s;
+            img{
+                filter: brightness(0) invert(1);
+            }
+            transition: .4s;
+        }
+    }
+    input {
+        flex: 1;
+        border: 0;
+        padding: 19px;
+        font-size: 16px;
+
+    }
+    &__find{
+        padding: 0px 28px;
+        transition: .4s;
+        &.btn {
+            border-left: 1px solid #e1e1e1;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+        }
+        &:hover {
+            background-color: $violet;
+            color: #fff;
+            img{
+                filter: brightness(0) invert(1);
+            }
+        }
+    }
+}

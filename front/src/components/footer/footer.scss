@@ -1,0 +1,105 @@
+@import '../../assets/css/mixin.scss';
+
+.footer {
+    &__text {
+        max-width: 427px;
+        margin-top: 35px;
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 46px;
+    }
+    &__title {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 25px;
+        color: $black;
+    }
+    &__social {
+        display: flex;
+        align-items: center;
+        a {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            border: 1px solid #f0f0f0;
+            margin-right: 14px;
+            transition: .3s;
+            &.fb:hover {
+                background-color: lighten(#1E33E5,40%);
+            }
+            &.tube:hover {
+                background-color: lighten(#FF2B2B,30%);
+            }
+            &.tw:hover {
+                background-color: lighten(#3CB5DB,40%);
+            }
+            &.lin:hover {
+                background-color: lighten(#286FA3,40%);
+            }
+            &.ins:hover {
+                background-color: lighten(#FD3E77,30%);
+            }
+        }
+    }
+    &__menu {
+        &.half {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 300px;
+            li {
+                @include fb(50%);
+            }
+        }
+        a {
+            display: inline-block;
+            line-height: 34px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            &:hover {
+                text-decoration: underline;
+                color: $violet;
+            }
+        }
+    }
+    &__map {
+        width: 376px;
+        height: 120px;
+        background-color: #c4c4c4;
+        border-radius: 14px;
+        margin-bottom: 20px;
+    }
+    &__contact {
+        display: flex;
+        align-items: start;
+        img{
+            margin-right: 15px;
+            margin-top: 7px;
+        }
+    }
+    &__val {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 34px;
+        margin-bottom: 20px;
+        color: $black;
+    }
+    &__bottom {
+        padding: 27px 0px;
+        border-top: 1px solid #f0f0f0;
+        color: #464B70;
+        a{
+            color: #464B70;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    }
+}
