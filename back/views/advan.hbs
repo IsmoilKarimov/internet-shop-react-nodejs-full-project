@@ -1,0 +1,152 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Afzalliklar ro'yhati</h1>
+    <button class="btn btn-success" data-toggle="modal" data-target="#advanModal">Yangi</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th class="width80">№</th>
+                        <th>Rasmi</th>
+                        <th>Sarlavhasi</th>
+                        <th>Matni</th>
+                        <th>Tartibi</th>
+                        <th>Holati</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each advans}}
+                    <tr>                                            
+                        <td><strong>{{index}}</strong></td>
+                        <td><img src="/{{icon}}" alt=""></td>              
+                        <td>{{title}}</td>              
+                        <td>{{text}}</td>              
+                        <td>{{order}}</td>                  
+                        <td>{{{status}}}</td>                   
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" 
+                                    data-toggle="modal" 
+                                    data-target="#upAdvan" 
+                                    onclick="getData('advan','{{_id}}')">Tahrirlash</a>
+                                    <a class="dropdown-item" onclick="return confirm('Qaroringiz qat\'iymi?')" href="/advan/delete/{{_id}}">O'chirish</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="advanModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangi</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="newadvan" enctype="multipart/form-data">
+                    <div class="form-group mb-3">
+                        <label for="icon" class="form-label">Afzallik ikonkasi</label>
+                        <input class="form-control" type="file" id="icon" name="icon" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control input-default "
+                            placeholder="Sarlavhasi">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="order" class="form-control input-default "
+                            placeholder="Tartib raqami">
+                    </div>
+                    <div class="form-group">
+                        <textarea name="text" class="form-control" rows="4" placeholder="Matn..."></textarea>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
+                        <label class="custom-control-label" for="status">Aktiv</label>
+                    </div>
+                    <button class="btn btn-success">Kiritish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upAdvan" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bo'limni tahrirlash</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="upadvan">
+                    <input type="hidden" name="_id">
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control input-default "
+                            placeholder="Bo'lim sarlavhasi">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="order" class="form-control input-default "
+                            placeholder="Tartib raqami">
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="upstatus" value="1">          
+                        <label class="custom-control-label" for="upstatus">Aktiv</label>
+                    </div>
+                    <button class="btn btn-success">Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let newadvan = document.forms.newadvan
+   
+    newadvan.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let formData = new FormData(newadvan)
+        fetch('/advan',{
+            method:'post',
+            body:formData
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+            location.reload()
+        })
+    })
+
+    let upadvan = document.forms.upadvan
+   
+    upadvan.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let data = {}
+        let formData = new FormData(upadvan)
+        formData.forEach((value,name) => {
+            data[name] = value
+        })
+        upData(data,'advan')
+    })
+</script>

@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-const MONGODB_URI = 'mongodb://127.0.0.1:27017/pirbook'
+const MONGODB_URI = 'mongodb://127.0.0.1:27017/bookShop'
 let store = new MongoDBStore({
     uri: MONGODB_URI,
     collection: 'session'
@@ -68,7 +68,7 @@ app.use(varMiddle)
 
 app.use(routerList)
 
-const PORT = 5005
+const PORT = 3003
 
 async function dev(){
     try {
@@ -77,7 +77,7 @@ async function dev(){
             console.log(`Server is running ${PORT}`)
         })
     } catch (error) {
-        console.log(error)
+        console.log(error) 
     }
 }
 dev()

@@ -3,6 +3,10 @@ const router = Router()
 const auth = require('./middleware/auth')
 
 const userRouter = require('./router/user')
+const categoryRouter = require('./router/category')
+const advanRouter = require('./router/advan')
+const reviewRouter = require('./router/review')
+const apiRouter = require('./router/api')
 
 router.get('/',auth,async(req,res)=>{
     res.render('index',{
@@ -11,5 +15,9 @@ router.get('/',auth,async(req,res)=>{
 })
 
 router.use('/user',userRouter)
+router.use('/category',categoryRouter)
+router.use('/advan',advanRouter)
+router.use('/review',reviewRouter)                          
+router.use('/api',apiRouter)
 
 module.exports = router

@@ -3,9 +3,7 @@ const router = Router()
 const auth = require('../middleware/auth')
 
 router.get('/',async(req,res)=> {
-    res.render('user/index',{
-
-    })
+    res.render('user/index')
 })
 
 router.get('/login',async(req,res)=> {
