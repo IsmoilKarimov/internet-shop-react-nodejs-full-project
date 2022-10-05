@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+/* eslint-disable array-callback-return */
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './header.scss'
 
@@ -10,10 +11,20 @@ import search from '../../assets/img/search.svg'
 import fav from '../../assets/img/fav.svg'
 import cart from '../../assets/img/cart.svg'
 import user from '../../assets/img/user.svg'
+import axios from "axios";
 
 const Header = () => {
 
     const [catBtn, SetCatBtn] = useState(false)
+    const [categoryList, setCategoryList] = useState([])
+    
+    useEffect(()=>{
+        axios.get('http://localhost:3003/api/category/all')
+        .then(res => {
+            if(res.data.length > 0)
+                setCategoryList(res.data)
+        })
+    },[])
 
     return(
         <header className="header">
@@ -31,12 +42,13 @@ const Header = () => {
                         <span>Turkumlar</span>
                         <img src={down} alt='' />
                         <ul className="cats">
-                            <li><Link to="/">Roman</Link></li>
-                            <li><Link to="/">Roman</Link></li>
-                            <li><Link to="/">Roman</Link></li>
-                            <li><Link to="/">Roman</Link></li>
-                            <li><Link to="/">Roman</Link></li>
-                            <li><Link to="/">Roman</Link></li>
+                            {categoryList.map( cat => {
+                                return (
+                                    <li key={cat._id}>
+                                        <Link to={`/category/${cat._id}`}>{cat.title}</Link>
+                                    </li>
+                                )
+                            })}
                         </ul>
                     </button>
                     <input type='text' className="header__input" placeholder="Qidiruv" />
