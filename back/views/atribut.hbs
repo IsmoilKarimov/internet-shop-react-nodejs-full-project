@@ -1,0 +1,138 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Atributlar ro'yhati</h1>
+    <button class="btn btn-success" data-toggle="modal" data-target="#atributModal">Yangi atribut</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th class="width80">№</th>
+                        <th>Atribut sarlavhasi</th>
+                        <th>Tartib raqami</th>
+                        <th>Holati</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each atributs}}
+                    <tr>                                            
+                        <td><strong>{{index}}</strong></td>
+                        <td>{{title}}</td>              
+                        <td>{{order}}</td>                  
+                        <td>{{{status}}}</td>                   
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" 
+                                    data-toggle="modal" 
+                                    data-target="#upAtribut" 
+                                    onclick="getData('atribut','{{_id}}')">Tahrirlash</a>
+                                    <a class="dropdown-item" onclick="return confirm('Qaroringiz qat\'iymi?')" href="/atribut/delete/{{_id}}">O'chirish</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="atributModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangi atribut</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="newatribut">
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control input-default "
+                            placeholder="Atribut sarlavhasi">
+                    </div>
+                    <div class="form-group">
+                        <input type="number" name="order" class="form-control input-default "
+                            placeholder="Tartib raqami">
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
+                        <label class="custom-control-label" for="status">Aktiv</label>
+                    </div>
+                    <button class="btn btn-success">Kiritish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upAtribut" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Atributni tahrirlash</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="upatribut">
+                    <input type="hidden" name="_id">
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control input-default "
+                            placeholder="Atribut sarlavhasi">
+                    </div>
+                    <div class="form-group">                
+                        <input type="number" name="order" class="form-control input-default "
+                            placeholder="Tartib raqami">
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="upstatus" value="1">          
+                        <label class="custom-control-label" for="upstatus">Aktiv</label>
+                    </div>
+                    <button class="btn btn-success">Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let newatribut = document.forms.newatribut
+   
+    newatribut.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let data = {}
+        let formData = new FormData(newatribut)
+        formData.forEach((value,name) => {
+            data[name] = value
+        })
+        addData(data,'atribut')
+    })
+
+    let upatribut = document.forms.upatribut
+   
+    upatribut.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let data = {}
+        let formData = new FormData(upatribut)
+        formData.forEach((value,name) => {
+            data[name] = value
+        })
+        upData(data,'atribut')
+    })
+</script>

@@ -1,0 +1,217 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Kitoblar ro'yhati</h1>
+    <button class="btn btn-success" data-toggle="modal" data-target="#productModal">Yangi kitob</button>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th class="width80">№</th>
+                        <th>Kitob nomi</th>
+                        <th>Turi</th>
+                        <th>Narhi</th>
+                        <th>Holati</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each products}}
+                    <tr>                                            
+                        <td><strong>{{index}}</strong></td>
+                        <td>{{title}}</td>                             
+                        <td>{{category.title}}</td>                  
+                        <td>{{price}}</td>                  
+                        <td>{{{status}}}</td>                   
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" 
+                                    data-toggle="modal" 
+                                    data-target="#upProduct" 
+                                    onclick="getData('product','{{_id}}')">Tahrirlash</a>
+                                    <a class="dropdown-item" onclick="return confirm('Qaroringiz qat\'iymi?')" href="/product/delete/{{_id}}">O'chirish</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="productModal" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yangi Kitob</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="newproduct" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" name="title" class="form-control input-default" placeholder="Kitob nomi">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                             <div class="form-group">
+                                <select class="form-control default-select " name="category">
+                                    {{#each categories}}
+                                    <option value="{{_id}}">{{title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="price" class="form-control input-default" placeholder="Narhi...">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="sale" class="form-control input-default" placeholder="Chegirma(%)">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="author" class="form-control input-default" placeholder="Muallifi">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="year" class="form-control input-default" placeholder="Chop etilgan yili">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Yangilik qisqa matni</label>
+                        <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                    </div>
+                    <div class="form-group mt-3">
+                        <label for="text">Yangilik to'liq matni</label>
+                        <textarea name="text" id="text" class="form-control" rows="8"></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="img" class="form-label">Rasmi</label>
+                        <input class="form-control" type="file" multiple id="img" name="img" required>
+                    </div>
+                    <div class="d-flex jalign-items-center justify-content-between">
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
+                            <label class="custom-control-label" for="status">Aktiv</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="cheap" class="custom-control-input" checked="" id="cheap" value="1">          
+                            <label class="custom-control-label" for="cheap">Hamyonbop</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="popular" class="custom-control-input" checked="" id="popular" value="1">          
+                            <label class="custom-control-label" for="popular">Mashhur</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="recom" class="custom-control-input" checked="" id="recom" value="1">          
+                            <label class="custom-control-label" for="recom">Taklif etamiz</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="soon" class="custom-control-input" checked="" id="soon" value="1">          
+                            <label class="custom-control-label" for="soon">Tez kunda</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-success">Kiritish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="upProduct" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Bo'limni tahrirlash</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="upproduct">
+                    <input type="hidden" name="_id">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control input-default "
+                            placeholder="Ism-familyasi">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="work" class="form-control input-default "
+                            placeholder="Ish joyi">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control form-control-lg default-select " name="mark">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="text" class="form-control" rows="4" placeholder="Matni..."></textarea>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="avatar" class="form-label">Foydalanuvchi avatari</label>
+                        <input class="form-control" type="file" id="avatar" name="avatar" required>
+                    </div>
+                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
+                        <label class="custom-control-label" for="status">Aktiv</label>
+                    </div>
+                    <button class="btn btn-success">Saqlash</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let newproduct = document.forms.newproduct
+   
+    newproduct.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let formData = new FormData(newproduct)
+        fetch('/product',{
+            method:'post',
+            body:formData
+        }).then(res => res.json())
+        .then(data => {
+            console.log(data)
+            location.reload()
+        })
+    })
+
+    let upproduct = document.forms.upproduct
+   
+    upproduct.addEventListener('submit', (e) => {
+        e.preventDefault()
+        let data = {}
+        let formData = new FormData(upproduct)
+        formData.forEach((value,name) => {
+            data[name] = value
+        })
+        upData(data,'product')
+    })
+</script>
