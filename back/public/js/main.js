@@ -40,7 +40,6 @@ function getData(link,id){
     fetch(`/${link}/${id}`)
     .then(res => res.json())
     .then(upData => {
-        console.log(upData);
         if(upData!== 'error'){
             let formName = `up${link}`
             let form = document.forms[formName]

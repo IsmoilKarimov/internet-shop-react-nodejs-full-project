@@ -7,8 +7,22 @@ import './home.scss';
 // images 
 import customers from '../../assets/img/customers.png'
 import star from '../../assets/img/star.svg'
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Review = () => {
+
+    const [reviews, setReviews] = useState([])
+
+    useEffect(()=>{
+        axios.get('http://localhost:3003/api/review/all')
+        .then(res => {
+            if(res.data.length>0 && res.data !== 'error'){
+                setReviews(res.data)
+            }
+        })
+    })
     return(
         <div className="review">
             <div className="container">
@@ -28,69 +42,33 @@ const Review = () => {
                         pagination: false,
                         gap:30,
             }}>
-                <SplideSlide>
-                    <div className="review__box">
-                        <div className="review__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </div>
-                        <div className="review__bottom">
-                            <div className="review__author">
-                                <div className="review__avatar"></div>
-                                <div className="review__top">
-                                    <div className="review__name">Olimov Sardor</div>
-                                    <div className="review__who">Kitobxon</div>
+                {reviews.map(review => {
+                    let stars = []
+                    for(let i=1;i<=review.mark; i++){
+                        stars.push(<img src={star} alt="" key={'img'+Math.random()}/>)
+                    }
+                    return(
+                    <SplideSlide key={(review._id)}>
+                        <div className="review__box">
+                            <div className="review__text">{review.text}</div>
+                            <div className="review__bottom">
+                                <div className="review__author">
+                                    <div className="review__avatar" style={{
+                                        backgroundImage: `url('http://localhost:3003/${review.avatar}')`
+                                    }}></div>
+                                    <div className="review__top">
+                                        <div className="review__name">{review.name}</div>
+                                        <div className="review__who">{review.work}</div>
+                                    </div>
+                                </div>
+                                <div className="review__count">
+                                    {stars}
                                 </div>
                             </div>
-                            <div className="review__count">
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                            </div>
                         </div>
-                    </div>
-                </SplideSlide>               
-                <SplideSlide>
-                    <div className="review__box">
-                        <div className="review__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </div>
-                        <div className="review__bottom">
-                            <div className="review__author">
-                                <div className="review__avatar"></div>
-                                <div className="review__top">
-                                    <div className="review__name">Olimov Sardor</div>
-                                    <div className="review__who">Kitobxon</div>
-                                </div>
-                            </div>
-                            <div className="review__count">
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </SplideSlide>               
-                <SplideSlide>
-                    <div className="review__box">
-                        <div className="review__text">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </div>
-                        <div className="review__bottom">
-                            <div className="review__author">
-                                <div className="review__avatar"></div>
-                                <div className="review__top">
-                                    <div className="review__name">Olimov Sardor</div>
-                                    <div className="review__who">Kitobxon</div>
-                                </div>
-                            </div>
-                            <div className="review__count">
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                                <img src={star} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                </SplideSlide>               
+                    </SplideSlide>              
+                )}                
+                )}
             </Splide>
         </div>
     )

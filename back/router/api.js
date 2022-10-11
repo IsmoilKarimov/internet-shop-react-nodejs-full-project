@@ -5,6 +5,7 @@ const Category = require('../model/category')
 const Advan = require('../model/advan')
 const Review = require('../model/review')
 const News = require('../model/news')
+const Product = require('../model/product')
 
 router.get('/category/all',async(req,res)=>{
     let category = await Category.find({status:1})
@@ -40,4 +41,28 @@ router.get('/news/all',async(req,res)=>{
         res.send('error')
     }
 })
+
+router.get('/products/get/:id',async(req,res)=> {
+    if(req.params){
+        let _id = req.params.id
+        let product = await Product.findOne({_id}).populate('atributs.atribut').populate('category')
+        res.send(product)
+    }else {
+        res.send(JSON.stringify('error'))
+    }
+})
+
+router.get('/products/cheap',async(req,res)=> {
+    let products = await Product.find({status:1,cheap:1})
+    .select(['_id','title','img','price','sale','author'])
+    .limit(5)
+    .sort({_id:-1})
+    res.send(products)
+
+    products = products.map(product => {
+        product.img = product.img[0]
+        return product
+    })
+})
+
 module.exports = router

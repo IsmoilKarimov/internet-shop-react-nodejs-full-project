@@ -88,6 +88,13 @@
 
         }
     }
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @include fb(100%);
+        flex-direction: column;
+    }
     &__box {
         background-color: #9C9C9C;
         margin-top: 39px;
@@ -536,6 +543,7 @@
         margin-right: 25px;
         border-radius: 50%;
         background: #666666;
+        @include bg;
     }
     &__name {
         font-weight: 700;

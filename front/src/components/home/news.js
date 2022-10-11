@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,9 +7,23 @@ import './home.scss'
 // images
 import rightarrow from '../../assets/img/right_arrow.svg'
 import pict from '../../assets/img/pict.png'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 const News = () => {
+
+    const [news, setNews] = useState([])
+    useEffect(()=> {
+        axios.get('http://localhost:3003/api/news/all')
+        .then(res => {
+            if(res.data.length>0 && res.data !== 'error'){
+                setNews(res.data)
+            }
+        })
+    })
+
     return(
         <div className='news'>
             <div className='container'>
@@ -23,52 +38,17 @@ const News = () => {
                     </Link>
                 </div>
                 <div className='row'>
-                    <div className='col-3'>
+                    {news.map(item => (
+                        <div className='col-3' key={item._id}>
                         <div className='news__box'>
                             <div className='news__img' style={{
-                                backgroundImage: `url(${pict})`
+                                backgroundImage: `url('http://localhost:3003/${item.img}')`
                             }}></div>
-                            <Link to='/' className='news__title'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</Link>
-                            <div className='news__desc'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...
-                            </div>
+                            <Link to='/' className='news__title'>{item.title}</Link>
+                            <div className='news__desc'>{item.description}...</div>
                         </div>
                     </div>
-                    <div className='col-3'>
-                        <div className='news__box'>
-                            <div className='news__img' style={{
-                                backgroundImage: `url(${pict})`
-                            }}></div>
-                            <Link to='/' className='news__title'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</Link>
-                            <div className='news__desc'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-3'>
-                        <div className='news__box'>
-                            <div className='news__img' style={{
-                                backgroundImage: `url(${pict})`
-                            }}></div>
-                            <Link to='/' className='news__title'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</Link>
-                            <div className='news__desc'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...
-                            </div>
-                        </div>
-                    </div>
-                    <div className='col-3'>
-                        <div className='news__box'>
-                            <div className='news__img' style={{
-                                backgroundImage: `url(${pict})`
-                            }}></div>
-
-                            
-                            <Link to='/' className='news__title'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</Link>
-                            <div className='news__desc'>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...
-                            </div>
-                        </div>
-                    </div>
+                    ))}    
                 </div>
             </div>
         </div>

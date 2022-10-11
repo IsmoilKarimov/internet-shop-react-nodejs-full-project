@@ -41,7 +41,7 @@
                                     <a class="dropdown-item" 
                                     data-toggle="modal" 
                                     data-target="#upProduct" 
-                                    onclick="getData('product','{{_id}}')">Tahrirlash</a>
+                                    onclick="get('{{_id}}')">Tahrirlash</a>
                                     <a class="dropdown-item" onclick="return confirm('Qaroringiz qat\'iymi?')" href="/product/delete/{{_id}}">O'chirish</a>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <select class="form-control default-select " name="category">
                                     {{#each categories}}
                                     <option value="{{_id}}">{{title}}</option>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="col-6">
                             <div class="form-group">
-                                <input type="number" name="author" class="form-control input-default" placeholder="Muallifi">
+                                <input type="text" name="author" class="form-control input-default" placeholder="Muallifi">
                             </div>
                         </div>
                         <div class="col-6">
@@ -99,6 +99,16 @@
                                 <input type="number" name="year" class="form-control input-default" placeholder="Chop etilgan yili">
                             </div>
                         </div>
+                    </div>
+                    <input type="hidden" name="atributs" id="atributs">
+                    <div class="row getatr">
+                        {{#each atributs}}
+                        <div class="col-4">
+                             <div class="form-group">
+                                <input type="text" data-id="{{_id}}"  class="form-control input-default" placeholder="{{title}}">
+                            </div>
+                        </div>
+                        {{/each}}
                     </div>
                     <div class="form-group">
                         <label for="description">Yangilik qisqa matni</label>
@@ -118,21 +128,28 @@
                             <label class="custom-control-label" for="status">Aktiv</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="cheap" class="custom-control-input" checked="" id="cheap" value="1">          
+                            <input type="checkbox" name="cheap" class="custom-control-input" id="cheap" value="1">          
                             <label class="custom-control-label" for="cheap">Hamyonbop</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="popular" class="custom-control-input" checked="" id="popular" value="1">          
+                            <input type="checkbox" name="popular" class="custom-control-input" id="popular" value="1">          
                             <label class="custom-control-label" for="popular">Mashhur</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="recom" class="custom-control-input" checked="" id="recom" value="1">          
+                            <input type="checkbox" name="recom" class="custom-control-input" id="recom" value="1">          
                             <label class="custom-control-label" for="recom">Taklif etamiz</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="soon" class="custom-control-input" checked="" id="soon" value="1">          
+                            <input type="checkbox" name="soon" class="custom-control-input" id="soon" value="1">          
                             <label class="custom-control-label" for="soon">Tez kunda</label>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control default-select " name="delivery">
+                            <option value="0">Pepul yetkazish</option>
+                            <option value="0">Toshkent 10 000 so'm. Respublika bo'ylab 35 000 so'm</option>
+                            <option value="0">Toshkent 20 000 so'm. Respublika bo'ylab 55 000 so'm</option>
+                        </select>
                     </div>
                     <button class="btn btn-success">Kiritish</button>
                 </form>
@@ -145,42 +162,100 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Bo'limni tahrirlash</h5>
+                <h5 class="modal-title">Mahsulotni tahrirlash</h5>
                 <button type="button" class="close" data-dismiss="modal"><span>×</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form name="upproduct">
-                    <input type="hidden" name="_id">
-                    <div class="form-group">
-                        <input type="text" name="name" class="form-control input-default "
-                            placeholder="Ism-familyasi">
+                <form name="upproduct" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" name="title" class="form-control input-default" placeholder="Kitob nomi">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <select class="form-control default-select " name="category">
+                                    {{#each categories}}
+                                    <option value="{{_id}}">{{title}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="price" class="form-control input-default" placeholder="Narhi...">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="sale" class="form-control input-default" placeholder="Chegirma(%)">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="text" name="author" class="form-control input-default" placeholder="Muallifi">
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <input type="number" name="year" class="form-control input-default" placeholder="Chop etilgan yili">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="atributs" id="atributs">
+                    <div class="row getatr">
+                        {{#each atributs}}
+                        <div class="col-4">
+                             <div class="form-group">
+                                <input type="text" data-id="{{_id}}"  class="form-control input-default" placeholder="{{title}}">
+                            </div>
+                        </div>
+                        {{/each}}
                     </div>
                     <div class="form-group">
-                        <input type="text" name="work" class="form-control input-default "
-                            placeholder="Ish joyi">
+                        <label for="description">Yangilik qisqa matni</label>
+                        <textarea name="description" id="description" class="form-control" rows="4"></textarea>
                     </div>
-                    <div class="form-group">
-                        <select class="form-control form-control-lg default-select " name="mark">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="text" class="form-control" rows="4" placeholder="Matni..."></textarea>
+                    <div class="form-group mt-3">
+                        <label for="text">Yangilik to'liq matni</label>
+                        <textarea name="text" id="text" class="form-control" rows="8"></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="avatar" class="form-label">Foydalanuvchi avatari</label>
-                        <input class="form-control" type="file" id="avatar" name="avatar" required>
+                        <label for="img" class="form-label">Rasmi</label>
+                        <input class="form-control" type="file" multiple id="img" name="img" required>
                     </div>
-                    <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                        <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
-                        <label class="custom-control-label" for="status">Aktiv</label>
+                    <div class="d-flex jalign-items-center justify-content-between">
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
+                            <label class="custom-control-label" for="status">Aktiv</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="cheap" class="custom-control-input" id="cheap" value="1">          
+                            <label class="custom-control-label" for="cheap">Hamyonbop</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="popular" class="custom-control-input" id="popular" value="1">          
+                            <label class="custom-control-label" for="popular">Mashhur</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="recom" class="custom-control-input" id="recom" value="1">          
+                            <label class="custom-control-label" for="recom">Taklif etamiz</label>
+                        </div>
+                        <div class="custom-control custom-checkbox mb-3 checkbox-warning">
+                            <input type="checkbox" name="soon" class="custom-control-input" id="soon" value="1">          
+                            <label class="custom-control-label" for="soon">Tez kunda</label>
+                        </div>
                     </div>
-                    <button class="btn btn-success">Saqlash</button>
+                    <div class="form-group">
+                        <select class="form-control default-select " name="delivery">
+                            <option value="0">Pepul yetkazish</option>
+                            <option value="0">Toshkent 10 000 so'm. Respublika bo'ylab 35 000 so'm</option>
+                            <option value="0">Toshkent 20 000 so'm. Respublika bo'ylab 55 000 so'm</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-success">Kiritish</button>
                 </form>
             </div>
         </div>
@@ -189,8 +264,18 @@
 
 <script>
     let newproduct = document.forms.newproduct
-   
     newproduct.addEventListener('submit', (e) => {
+        let atrs = document.querySelectorAll('.getatr input')
+        let arr = []
+        atrs.forEach(input => {
+            if(input.value){
+                arr.push({
+                    atribut: input.getAttribute('data-id'),
+                    value: input.value
+                })
+            }
+        })
+        document.getElementById('atributs').value = JSON.stringify(arr)
         e.preventDefault()
         let formData = new FormData(newproduct)
         fetch('/product',{
@@ -204,7 +289,6 @@
     })
 
     let upproduct = document.forms.upproduct
-   
     upproduct.addEventListener('submit', (e) => {
         e.preventDefault()
         let data = {}
@@ -214,4 +298,34 @@
         })
         upData(data,'product')
     })
+
+
+    function get(id){
+    fetch(`/api/products/get/${id}`)
+    .then(res => res.json())
+    .then(data => {
+        if(data!== 'error'){
+            let formName = document.forms.upproduct   
+            formName.title.value = data.title
+            formName.text.value = data.text
+            formName.description.value = data.description
+            formName.price.value = data.price
+            formName.sale.value = data.sale
+            formName.category.title.value = data.category
+            formName.reviews.value = data.reviews
+            formName.atributs.value = data.atributs
+            formName.author.value = data.author
+            formName.delivery.value = data.delivery
+            formName.year.value = data.year
+            formName.createdAt.value = data.createdAt
+            formName.status.value = data.status = data.status == 0 ? false : true
+            formName.cheap.value = data.cheap = data.cheap == 0 ? false : true
+            formName.recom.value = data.recom = data.recom == 0 ? false : true
+            formName.soon.value = data.soon = data.soon == 0 ? false : true
+            formName.popular.value = data.popular = data.popular == 0 ? false : true
+            
+        }
+    })
+}
+
 </script>

@@ -2,10 +2,12 @@ const {Router} = require('express')
 const router = Router()
 const Product = require('../model/product')
 const Category = require('../model/category')
+const Atribut = require('../model/atribut')
 
 router.get('/',async(req,res)=>{
-    let products = await Product.find().sort({_id:-1}).lean()
+    let products = await Product.find().populate('category').sort({_id:-1}).lean()
     let categories = await Category.find().lean()
+    let atributs = await Atribut.find().lean()
     products = products.map((item,index) => {
         item.index = index+1
         item.status = item.status === 1 ? '<span class="badge light badge-success">Faol</span>' : '<span class="badge light badge-danger">Nofaol</span>'
@@ -15,7 +17,8 @@ router.get('/',async(req,res)=>{
     res.render('product',{
         title:`Kitoblar ro'yhati`,
         products,
-        categories 
+        categories,
+        atributs
     })
 })
 
@@ -25,26 +28,28 @@ router.post('/',async(req,res)=>{
     popular = popular || 0
     recom = recom || 0
     soon = soon || 0
-    console.log(req.files);
-    // if(req.files){
-    //     let file = req.files.img
-    //     const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
-    //     let filepath = `uploads/${uniquePreffix}_${file.name}`
-    //     file.mv(filepath, async err => {
-    //         if(err) res.send(JSON.stringify(err))
-    //         let product = await new Product({title,description,text,status,img:filepath})
-    //         await product.save()
-    //         res.send(JSON.stringify('ok'))
-    //     })
-    // }else {
-    //     res.send(JSON.stringify('error'))
-    // }
+    atributs = JSON.parse(atributs)
+    if(req.files){
+        let files = req.files.img
+        let img = []
+        await Promise.all(files.map(async(file) => {
+            const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
+            let filepath = `uploads/${uniquePreffix}_${file.name}`
+            await file.mv(filepath)
+            img.push(filepath)
+        }))
+        let product = await new Product({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
+        await product.save()
+        res.send(JSON.stringify('ok'))
+    }else {
+        res.send(JSON.stringify('error'))
+    }
 })
 
  
 router.get('/:id',async(req,res)=>{
     if(req.params.id){  
-        let _id = req.params.id 
+        let _id = req.params.id
         let product = await Product.findOne({_id})
         res.send(product)
     } else {
@@ -53,22 +58,30 @@ router.get('/:id',async(req,res)=>{
 })
 
 router.put('/save',async(req,res)=>{
-    let {_id,title,description,text,status} = req.body
-    status = status || 0
-    order = order || 0
-    if(req.files){
-        let file = req.files.img
-        const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
-        let filepath = `uploads/${uniquePreffix}_${file.name}`
-        file.mv(filepath, async err => {
-            if(err) res.send(JSON.stringify(err))
-            let product = await new Product({title,description,text,status,img:filepath})
-            await product.save()
+    try {
+        let {_id,title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status} = req.body
+        status = status || 0
+        popular = popular || 0
+        recom = recom || 0
+        soon = soon || 0
+        atributs = JSON.parse(atributs)
+        if(req.files){
+            let files = req.files.img
+            let img = []
+            await Promise.all(files.map(async(file) => {
+                const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
+                let filepath = `uploads/${uniquePreffix}_${file.name}`
+                await file.mv(filepath)
+                img.push(filepath)
+            }))
+            await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
             res.send(JSON.stringify('ok'))
-        })
-    }else { 
-        await Product.findByIdAndUpdate(_id,{title,description,text,status})
-        res.send(JSON.stringify('ok'))
+        }else {
+            await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status})
+            res.send(JSON.stringify('ok'))
+        }
+    } catch (error) {
+        res.send(error)
     }
 })
 
@@ -77,5 +90,6 @@ router.get('/delete/:id',async(req,res)=>{
     await Product.findByIdAndRemove({_id})
     res.redirect('/product')
 })
+
 
 module.exports = router
