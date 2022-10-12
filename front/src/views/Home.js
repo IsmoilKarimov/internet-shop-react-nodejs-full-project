@@ -27,10 +27,10 @@ const Home = () => {
                 <Advan />
                 <div className="row">
                     <div className="col-6 col-md-12">
-                        <Pslider />
+                        <Pslider type='recom'/>
                     </div>
                     <div className="col-6 col-md-12">
-                        <Pslider />
+                        <Pslider type='popular'/>
                     </div>
                 </div>
                 <Promo />

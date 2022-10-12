@@ -7,7 +7,7 @@ import './home.scss'
 
 // images
 // eslint-disable-next-line no-unused-vars
-import book from '../../assets/img/book.jpg'
+// import book from '../../assets/img/book.jpg'
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
@@ -42,7 +42,7 @@ const Rslider = () => {
                     return(
                         <SplideSlide key={product._id}>
                             <div className="rslider__img" style={{
-                                backgroundImage: `url("http://localhost:3003/${product.img}")`
+                                backgroundImage: `url('http://localhost:3003/${product.img}')`
                             }}></div>
                             <div className="rslider__name">{product.title}</div>
                             <div className="rslider__author">{product.author}</div>
@@ -54,7 +54,7 @@ const Rslider = () => {
                                     </div>
 
                                 ):(
-                                    <div className="rslider__old">{product.price} so'm</div>                
+                                    <div className="rslider__old__item">{product.price} so'm</div>                
                                 )}
                                 
                             </Link>
