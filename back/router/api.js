@@ -57,12 +57,38 @@ router.get('/products/cheap',async(req,res)=> {
     .select(['_id','title','img','price','sale','author'])
     .limit(5)
     .sort({_id:-1})
-    res.send(products)
-
+    
     products = products.map(product => {
         product.img = product.img[0]
         return product
     })
+    res.send(products)
+})
+
+router.get('/products/recom',async(req,res)=> {
+    let products = await Product.find({status:1,recom:1})
+    .select(['_id','title','img',])
+    .limit(10)
+    .sort({_id:-1})
+    
+    products = products.map(product => {
+        product.img = product.img[0]
+        return product
+    })
+    res.send(products)
+})
+
+router.get('/products/popular',async(req,res)=> {
+    let products = await Product.find({status:1,popular:1})
+    .select(['_id','title','img'])
+    .limit(10)
+    .sort({_id:-1})
+    
+    products = products.map(product => {
+        product.img = product.img[0]
+        return product
+    })
+    res.send(products)
 })
 
 module.exports = router

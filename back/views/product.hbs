@@ -168,6 +168,7 @@
             </div>
             <div class="modal-body">
                 <form name="upproduct" enctype="multipart/form-data">
+                <input type="hidden" name="_id">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -204,12 +205,12 @@
                             </div>
                         </div>
                     </div>
-                    <input type="hidden" name="atributs" id="atributs">
-                    <div class="row getatr">
+                    <input type="hidden" name="atributs" id="atributs1">
+                    <div class="row setatr">
                         {{#each atributs}}
                         <div class="col-4">
                              <div class="form-group">
-                                <input type="text" data-id="{{_id}}"  class="form-control input-default" placeholder="{{title}}">
+                                <input type="text" name="{{_id}}" data-id="{{_id}}"  class="form-control input-default" placeholder="{{title}}">
                             </div>
                         </div>
                         {{/each}}
@@ -224,28 +225,31 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="img" class="form-label">Rasmi</label>
-                        <input class="form-control" type="file" multiple id="img" name="img" required>
+                        <input class="form-control" type="file" multiple id="img" name="img">
+                    </div>
+                    <div class="d-flex showimgs form-group">
+
                     </div>
                     <div class="d-flex jalign-items-center justify-content-between">
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="status" class="custom-control-input" checked="" id="status" value="1">          
-                            <label class="custom-control-label" for="status">Aktiv</label>
+                            <input type="checkbox" name="status" class="custom-control-input" checked="" id="status1" value="1">          
+                            <label class="custom-control-label" for="status1">Aktiv</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="cheap" class="custom-control-input" id="cheap" value="1">          
-                            <label class="custom-control-label" for="cheap">Hamyonbop</label>
+                            <input type="checkbox" name="cheap" class="custom-control-input" id="cheap1" value="1">          
+                            <label class="custom-control-label" for="cheap1">Hamyonbop</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="popular" class="custom-control-input" id="popular" value="1">          
-                            <label class="custom-control-label" for="popular">Mashhur</label>
+                            <input type="checkbox" name="popular" class="custom-control-input" id="popular1" value="1">          
+                            <label class="custom-control-label" for="popular1">Mashhur</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="recom" class="custom-control-input" id="recom" value="1">          
-                            <label class="custom-control-label" for="recom">Taklif etamiz</label>
+                            <input type="checkbox" name="recom" class="custom-control-input" id="recom1" value="1">          
+                            <label class="custom-control-label" for="recom1">Taklif etamiz</label>
                         </div>
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
-                            <input type="checkbox" name="soon" class="custom-control-input" id="soon" value="1">          
-                            <label class="custom-control-label" for="soon">Tez kunda</label>
+                            <input type="checkbox" name="soon" class="custom-control-input" id="soon1" value="1">          
+                            <label class="custom-control-label" for="soon1">Tez kunda</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -291,38 +295,65 @@
     let upproduct = document.forms.upproduct
     upproduct.addEventListener('submit', (e) => {
         e.preventDefault()
-        let data = {}
-        let formData = new FormData(upproduct)
-        formData.forEach((value,name) => {
-            data[name] = value
+        let atrs = document.querySelectorAll('.setatr input')
+        let arr = []
+        atrs.forEach(input => {
+            if(input.value){
+                arr.push({
+                    atribut: input.getAttribute('data-id'),
+                    value: input.value
+                })
+            }
         })
-        upData(data,'product')
+        let data = {}
+        document.getElementById('atributs1').value = JSON.stringify(arr) 
+        let formData = new FormData(upproduct)
+        
+        fetch(`/product/save`,{
+            method: 'post',
+            body:formData
+        }).then(res => res.json())
+        .then(newData => {
+            if(newData == 'ok'){
+                location.reload()
+            }
+            else{
+                console.log(newData)
+            }
+        })
     })
 
 
     function get(id){
-    fetch(`/api/products/get/${id}`)
+    fetch(`/product/${id}`)
     .then(res => res.json())
     .then(data => {
-        if(data!== 'error'){
-            let formName = document.forms.upproduct   
+        if(data !== 'error'){
+            let formName = document.forms.upproduct  
+            formName._id.value = data._id
             formName.title.value = data.title
             formName.text.value = data.text
             formName.description.value = data.description
             formName.price.value = data.price
             formName.sale.value = data.sale
             formName.category.title.value = data.category
-            formName.reviews.value = data.reviews
-            formName.atributs.value = data.atributs
             formName.author.value = data.author
             formName.delivery.value = data.delivery
             formName.year.value = data.year
-            formName.createdAt.value = data.createdAt
-            formName.status.value = data.status = data.status == 0 ? false : true
-            formName.cheap.value = data.cheap = data.cheap == 0 ? false : true
-            formName.recom.value = data.recom = data.recom == 0 ? false : true
-            formName.soon.value = data.soon = data.soon == 0 ? false : true
-            formName.popular.value = data.popular = data.popular == 0 ? false : true
+            formName.status.checked = data.status == 0 ? false : true
+            formName.cheap.checked = data.cheap == 0 ? false : true
+            formName.recom.checked = data.recom == 0 ? false : true
+            formName.soon.checked = data.soon == 0 ? false : true
+            formName.popular.checked = data.popular = data.popular == 0 ? false : true
+            
+            data.atributs.forEach(atribut => {
+                formName[atribut.atribut].value=atribut.value
+            })
+
+            data.img.forEach(img => {
+                let showimgs = document.querySelector('.showimgs')
+                showimgs.innerHTML +=`<img src=${img} height="50" alt="" />`
+            })
             
         }
     })

@@ -46,7 +46,6 @@ router.post('/',async(req,res)=>{
     }
 })
 
- 
 router.get('/:id',async(req,res)=>{
     if(req.params.id){  
         let _id = req.params.id
@@ -57,7 +56,7 @@ router.get('/:id',async(req,res)=>{
     }
 })
 
-router.put('/save',async(req,res)=>{
+router.post('/save',async(req,res)=>{
     try {
         let {_id,title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status} = req.body
         status = status || 0
@@ -75,13 +74,15 @@ router.put('/save',async(req,res)=>{
                 img.push(filepath)
             }))
             await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
+            console.log({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status});
+            console.log(req.files);
             res.send(JSON.stringify('ok'))
         }else {
             await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status})
             res.send(JSON.stringify('ok'))
         }
     } catch (error) {
-        res.send(error)
+        res.send(JSON.stringify(error))             
     }
 })
 
