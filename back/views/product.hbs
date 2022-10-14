@@ -119,8 +119,8 @@
                         <textarea name="text" id="text" class="form-control" rows="8"></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="img" class="form-label">Rasmi</label>
-                        <input class="form-control" type="file" multiple id="img" name="img" required>
+                        <label for="icon" class="form-label">Rasmi</label>
+                        <input class="form-control" type="file" multiple id="icon" name="img" required>
                     </div>
                     <div class="d-flex jalign-items-center justify-content-between">
                         <div class="custom-control custom-checkbox mb-3 checkbox-warning">
@@ -168,7 +168,7 @@
             </div>
             <div class="modal-body">
                 <form name="upproduct" enctype="multipart/form-data">
-                <input type="hidden" name="_id">
+                    <input type="hidden" name="_id">
                     <div class="row">
                         <div class="col-6">
                             <div class="form-group">
@@ -224,8 +224,8 @@
                         <textarea name="text" id="text" class="form-control" rows="8"></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="img" class="form-label">Rasmi</label>
-                        <input class="form-control" type="file" multiple id="img" name="img">
+                        <label for="icon" class="form-label">Rasmi</label>
+                        <input class="form-control" type="file" multiple id="icon" name="img">
                     </div>
                     <div class="d-flex showimgs form-group">
 
@@ -267,6 +267,7 @@
 </div>
 
 <script>
+   
     let newproduct = document.forms.newproduct
     newproduct.addEventListener('submit', (e) => {
         let atrs = document.querySelectorAll('.getatr input')
@@ -287,10 +288,10 @@
             body:formData
         }).then(res => res.json())
         .then(data => {
-            console.log(data)
             location.reload()
         })
     })
+
 
     let upproduct = document.forms.upproduct
     upproduct.addEventListener('submit', (e) => {
@@ -323,7 +324,6 @@
         })
     })
 
-
     function get(id){
     fetch(`/product/${id}`)
     .then(res => res.json())
@@ -349,10 +349,9 @@
             data.atributs.forEach(atribut => {
                 formName[atribut.atribut].value=atribut.value
             })
-
             data.img.forEach(img => {
-                let showimgs = document.querySelector('.showimgs')
-                showimgs.innerHTML +=`<img src=${img} height="50" alt="" />`
+                let showimg = document.querySelector('.showimgs')
+                showimg.innerHTML +=`<img src=${img} height="50" alt="" />`
             })
             
         }

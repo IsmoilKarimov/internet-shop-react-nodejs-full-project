@@ -74,8 +74,6 @@ router.post('/save',async(req,res)=>{
                 img.push(filepath)
             }))
             await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
-            console.log({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status});
-            console.log(req.files);
             res.send(JSON.stringify('ok'))
         }else {
             await Product.findByIdAndUpdate(_id,{title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status})
