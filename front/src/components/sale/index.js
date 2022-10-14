@@ -6,10 +6,23 @@ import '@splidejs/splide/dist/css/splide.min.css';
 import './sale.scss';
 
 // images 
-import book from '../../assets/img/book.jpg'
+// import book from '../../assets/img/book.jpg'
 import star from '../../assets/img/star.svg'
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Sale = () => {
+
+    const [products, setProducts] = useState([])
+
+    useEffect(()=>{
+        axios.get(`http://localhost:3003/api/products/sale`)
+        .then(res => {
+            setProducts(res.data)
+        })
+    })
+
     return(
         <div className="sale">
             <div className="container">
@@ -24,348 +37,29 @@ const Sale = () => {
                     }}
                     className="sale__slider"
                     >
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
-                    <SplideSlide>
-                        <Link to='/' className="sale__box">
-                            <div className="sale__img" style={{
-                                backgroundImage: `url(${book})`
-                            }}>
-                                <div className="sale__discount">50%</div>
-                                <div className="sale__review">
-                                    <img src={star} alt="" />
-                                    <span>4.7</span>    
-                                </div>   
-                            </div>  
-                            <div className="sale__title">Qo’rqma</div> 
-                            <div className="sale__genre">Roman, Sarguzash</div>
-                            <div className="sale__price">
-                                <div className="sale__old">60 000 so’m</div>    
-                                <div className="sale__new">35 000 so’m</div>    
-                            </div> 
-                        </Link>      
-                    </SplideSlide>
+                    {products.map(product => {
+                        return(
+                            <SplideSlide key={product._id}>
+                                <Link to={`/product/${product._id}`} className="sale__box">
+                                    <div className="sale__img" style={{
+                                        backgroundImage: `url('http://localhost:3003/${product.img}')`
+                                    }}>
+                                        <div className="sale__discount">{product.sale}%</div>
+                                        <div className="sale__review">
+                                            <img src={star} alt="" />
+                                            <span>4.7</span>    
+                                        </div>   
+                                    </div>  
+                                    <div className="sale__title">{product.title}</div> 
+                                    <div className="sale__genre">{product.category.title}</div>
+                                    <div className="sale__price">
+                                        <div className="sale__old">{product.price.toLocaleString()} so’m</div>    
+                                        <div className="sale__new">{(product.price*(100 - product.sale)/100).toLocaleString()} so’m</div>    
+                                    </div> 
+                                </Link>      
+                            </SplideSlide>
+                        )
+                    })}
                 </Splide>
             </div>
         </div>

@@ -1,16 +1,14 @@
-import React from "react";
+import React,{ useState, useEffect } from "react";
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import { Link } from "react-router-dom";
 
 import '@splidejs/splide/dist/css/splide.min.css';
 import './home.scss'
+import axios from "axios";
 
 // images
 // eslint-disable-next-line no-unused-vars
 // import book from '../../assets/img/book.jpg'
-import { useState } from "react";
-import { useEffect } from "react";
-import axios from "axios";
 
 const Rslider = () => {
 
@@ -52,7 +50,6 @@ const Rslider = () => {
                                         <div className="rslider__old">{product.price} so'm</div>
                                         <div className="rslider__new">{product.price*(100-(product.sale))/100} so'm</div>
                                     </div>
-
                                 ):(
                                     <div className="rslider__old__item">{product.price} so'm</div>                
                                 )}

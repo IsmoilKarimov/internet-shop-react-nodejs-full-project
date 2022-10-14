@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import './footer.scss';
 
@@ -13,8 +13,20 @@ import ins from '../../assets/img/instagram.svg'
 import location from '../../assets/img/location.svg'
 import phone from '../../assets/img/phone.svg'
 import email from '../../assets/img/email.svg'
+import axios from "axios";
 
 const Footer = () => {
+
+    const [categoryList, setCategoryList] = useState([])
+    
+    useEffect(()=>{
+        axios.get('http://localhost:3003/api/category/all')
+        .then(res => {
+            if(res.data.length > 0)
+                setCategoryList(res.data)
+        })
+    },[])
+
     return(
         <div className="footer">
             <div className="container d-flex justify-content-between mb-4">
@@ -65,18 +77,11 @@ const Footer = () => {
                     Kitoblar janrlari
                     </div>
                     <ul className="footer__menu half">
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
+                        {categoryList.map(category => {
+                            return (
+                                <li><Link to={`/category/${category._id}`}>{category.title}</Link></li>
+                            )
+                        })}
                     </ul>
                 </div>
                 <div className="footer__item">

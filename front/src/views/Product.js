@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Advan from "../components/advan";
 import '../components/breadcrumbs';
 import Breadcrumbs from "../components/breadcrumbs";
@@ -18,12 +18,26 @@ import shipping from '../assets/img/shipping.svg'
 import sotcks from '../assets/img/sotcks.svg'
 import person from '../assets/img/person.jpg'
 import sort from '../assets/img/sort.svg'
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 const Product = () => {
 
+    let {id} = useParams()
+
     const [count, setCount] = useState(1)
     const [toggleTab, setToggleTab] = useState(true)
+    const [product, setProduct] = useState([])
+    const [atributs, setAtributs] = useState([])
+
+    useEffect(()=> {
+        axios.get(`http://localhost:3003/api/products/get/${id}`)
+        .then(res => {
+            console.log(res.data.atributs);
+            setProduct(res.data)
+            setAtributs(res.data.atributs)
+        })
+    },[])
 
     return(
         <>
@@ -31,10 +45,10 @@ const Product = () => {
             <div className="container">
                 <div className="product">
                     <div className="product__img" style={{
-                        backgroundImage: `url(${book})`
+                        backgroundImage: `url('http://localhost:3003/${product.img}')`
                     }}></div>
                     <div className="product__right">
-                        <div className="product__title">All Good News</div>
+                        <div className="product__title">{product.title}</div>
                         <div className="d-flex align-items-center">
                             <div className="product__stars">
                                 <img src={star} alt="" />
@@ -53,40 +67,32 @@ const Product = () => {
                                 456k Like
                             </div>
                         </div>
-                        <div className="product__text">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <br /><br />
-                        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem
+                        <div className="product__text" dangerouslySetInnerHTML={{__html:product.text}}>
+                        
                         </div>
                         <div className="d-flex align-items-center mb-3">
-                            <div className="product__author">
-                                <img src={person} alt="" />
-                            </div>
                             <div className="lprobox__item">
-                                <div className="lprobox__name">Written by</div>
-                                <div className="lprobox__value">Kevin Smiley</div>
-                            </div >                
+                                <div className="lprobox__name">Muallif</div>
+                                <div className="lprobox__value">{product.author}</div>
+                            </div >              
                             <div className="lprobox__item">
-                                <div className="lprobox__name">Publisher</div>
-                                <div className="lprobox__value">Printarea Studios</div>
-                            </div>                
-                            <div className="lprobox__item">
-                                <div className="lprobox__name">Year</div>
-                                <div className="lprobox__value">2019</div>
+                                <div className="lprobox__name">Chop etilgan yili</div>
+                                <div className="lprobox__value">{product.year}</div>
                             </div>       
                             <div className="product__shipping">
                                 <img src={shipping} alt="" />
-                                FREE SHIPPING
+                                {product.delivery}
                             </div>         
                             <div className="product__sotcks">
                                 <img src={sotcks} alt="" />
-                                IN SOTCKS
+                                {product.status}
                             </div>
                         </div>
                         <div className="product__line"></div>
                         <div className="product__bottom">
-                            <div className="product__newprice">$15,63</div>
-                            <div className="product__oldprice">$16,99</div>
-                            <div className="product__sale">2%</div>
+                            <div className="product__newprice">{product.sale>0?(product.price*(100-product.sale)/100):product.price}</div>
+                            <div className="product__oldprice">{product.sale>0?(product.price+' so`m'):''}</div>
+                            {product.sale>0?(<div className="product__sale">{product.sale}%</div>):''}
                             <div className="product__count">
                                 <button className="product__count--less" onClick={()=>{
                                     if(count > 0) setCount(count-1)}
@@ -96,7 +102,7 @@ const Product = () => {
                             </div>
                             <div className="btn btn__bg product__button">
                                 <img src={cart} alt="" />
-                                Add to cart    
+                                Savatchaga    
                             </div>         
                             <div className="btn btn__outline product__fav">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
@@ -109,35 +115,23 @@ const Product = () => {
                 <div className="row">
                     <div className="col-9 col-md-12">
                         <div className="product__tabs">
-                            <button className={toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(true)}}>Detail Product</button>
-                            <button className={!toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(false)}}>Customer Reviews</button>
+                            <button className={toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(true)}}>Kitob haqida</button>
+                            <button className={!toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(false)}}>Mijozlar fikrlari</button>
                         </div>
                         <div className="product__content">
                             {toggleTab?(
                                 <div className="product__atribute">
                                     <table>
-                                        <tr>
-                                            <td>Book Title</td>
-                                            <td>All Good News</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Book Title</td>
-                                            <td>All Good News</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Book Title</td>
-                                            <td>All Good News</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Book Title</td>
-                                            <td>
-                                                <Link to='/'>Drama</Link>
-                                                <Link to='/'>Drama</Link>
-                                                <Link to='/'>Drama</Link>
-                                                <Link to='/'>Drama</Link>
-                                                <Link to='/'>Drama</Link>    
-                                            </td>
-                                        </tr>
+                                        <tbody>
+                                        {atributs.map(atribut => {
+                                            return (
+                                                <tr key={atribut._id}>
+                                                    <td>{atribut.atribut.title}</td>
+                                                    <td>{atribut.value}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                        </tbody>
                                     </table>
                                 </div>
                             ):(
