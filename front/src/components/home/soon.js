@@ -6,8 +6,21 @@ import './home.scss';
 import book from '../../assets/img/book.jpg'
 import mark from '../../assets/img/mark.svg'
 import cart from '../../assets/img/cart.svg'
+import { useState } from "react";
+import { useEffect } from "react";
+import axios from "axios";
 
 const Soon = () =>{
+
+    const [products, setProducts] = useState([])
+
+    useEffect(()=> {
+        axios.get(`http://localhost:3003/api/products/soon`)
+        .then(res => {
+            setProducts(res.data)
+        })
+    })
+
     return(
         <div className="soon">
             <div className="container">
@@ -54,24 +67,13 @@ const Soon = () =>{
                     </div>
                     <div className="col-6">
                         <div className="row">
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
-                            <div className="col-4">
-                                <Link to="/" className="soon__book" style={{ backgroundImage: `url(${book})`}} />
-                            </div>
+                            {products.map(product => {
+                                return (
+                                    <div className="col-4" key={product._id}>
+                                        <Link to={`/product/${product._id}`} className="soon__book" style={{ backgroundImage: `url('http://localhost:3003/${product.img}')`}} />
+                                    </div>
+                                )
+                            })}
                         </div>
                     </div>
                 </div>

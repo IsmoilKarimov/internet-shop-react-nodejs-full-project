@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import React, { useEffect, useState } from "react";
 import Advan from "../components/advan";
 import '../components/breadcrumbs';
@@ -8,7 +9,7 @@ import Sub from "../components/sub";
 import '../assets/css/product.scss'
 
 // images
-import book from '../assets/img/book.jpg'
+// import book from '../assets/img/book.jpg'
 import cart from '../assets/img/cart.svg'
 import vcart from '../assets/img/vcart.svg'
 import star from '../assets/img/star.svg'
@@ -26,18 +27,26 @@ const Product = () => {
     let {id} = useParams()
 
     const [count, setCount] = useState(1)
-    const [toggleTab, setToggleTab] = useState(true)
+    const [toggleTab, setToggleTab] = useState(0)
     const [product, setProduct] = useState([])
     const [atributs, setAtributs] = useState([])
+    const [others, setOthers] = useState([])
 
     useEffect(()=> {
+        window.scroll({
+            top:0,
+            left:0,
+            behavior: "smooth"
+        })
         axios.get(`http://localhost:3003/api/products/get/${id}`)
         .then(res => {
-            console.log(res.data.atributs);
-            setProduct(res.data)
-            setAtributs(res.data.atributs)
+            let data = res.data
+            let {product,others} = data
+            setProduct(product)
+            setOthers(others)
+            setAtributs(product.atributs)
         })
-    },[])
+    },[id])
 
     return(
         <>
@@ -67,8 +76,10 @@ const Product = () => {
                                 456k Like
                             </div>
                         </div>
-                        <div className="product__text" dangerouslySetInnerHTML={{__html:product.text}}>
-                        
+                        <div className="product__text">
+                            <pre>
+                                {product.description}
+                            </pre>
                         </div>
                         <div className="d-flex align-items-center mb-3">
                             <div className="lprobox__item">
@@ -81,16 +92,16 @@ const Product = () => {
                             </div>       
                             <div className="product__shipping">
                                 <img src={shipping} alt="" />
-                                {product.delivery}
+                                {product.delivery==0?'Bepul yetkazish':product.delivery==1?'Toshkent 10 000 so\'m. Respublika bo\'ylab 35 000 so\'m':product.delivery==2?'Toshkent 20 000 so\'m. Respublika bo\'ylab 55 000 so\'m':''}
                             </div>         
                             <div className="product__sotcks">
                                 <img src={sotcks} alt="" />
-                                {product.status}
+                                {product.status==1?'Mavjud':'Xozirda yo`q'}
                             </div>
                         </div>
                         <div className="product__line"></div>
                         <div className="product__bottom">
-                            <div className="product__newprice">{product.sale>0?(product.price*(100-product.sale)/100):product.price}</div>
+                            <div className="product__newprice">{product.sale>0?(product.price*(100-product.sale)/100):product.price} so'm</div>
                             <div className="product__oldprice">{product.sale>0?(product.price+' so`m'):''}</div>
                             {product.sale>0?(<div className="product__sale">{product.sale}%</div>):''}
                             <div className="product__count">
@@ -115,14 +126,26 @@ const Product = () => {
                 <div className="row">
                     <div className="col-9 col-md-12">
                         <div className="product__tabs">
-                            <button className={toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(true)}}>Kitob haqida</button>
-                            <button className={!toggleTab?'htitle active':'htitle'} onClick={()=>{setToggleTab(false)}}>Mijozlar fikrlari</button>
+                            <button className={toggleTab==0?'htitle active':'htitle'} onClick={()=>{setToggleTab(0)}}>Kitob tasnifi</button>
+                            <button className={toggleTab==1?'htitle active':'htitle'} onClick={()=>{setToggleTab(1)}}>Kitob haqida</button>
+                            <button className={toggleTab==2?'htitle active':'htitle'} onClick={()=>{setToggleTab(2)}}>Mijozlar fikrlari</button>
                         </div>
                         <div className="product__content">
-                            {toggleTab?(
+                            {
+                            toggleTab==0?(
+                                <div className="product__text">
+                                    <pre>
+                                        {product.text}
+                                    </pre>
+                                </div>
+                            ):toggleTab==1?(
                                 <div className="product__atribute">
                                     <table>
                                         <tbody>
+                                        <tr>
+                                            <td>Kitob turi</td>
+                                            <td>{product.category.title}</td>
+                                        </tr>
                                         {atributs.map(atribut => {
                                             return (
                                                 <tr key={atribut._id}>
@@ -271,51 +294,34 @@ const Product = () => {
                         </div>
                     </div>
                     <div className="col-3 col-md-12">
-                        <div className="htitle">Related Books</div>
-                        <div className="rel">
-                            <div className="rel__img">
-                                <img src={book} alt="" />
-                            </div>
-                            <div className="rel__info">
-                                <Link to='/' className="rel__title">Terrible Madness</Link>
-                                <div className="rel__genre">THRILLE, DRAMA, HORROR</div>
-                                <div className="rel__review">
-                                    <img src={star} alt="" />
-                                    <div className="rel__review--bold">4.7</div>
-                                    <span>244 reviews</span>
+                        <div className="htitle">Boshqa kitoblar</div>
+                        {others.map(other => {
+                            return (
+                                <div className="rel" key={other._id}>
+                                    <div className="rel__img" style={{
+                                        backgroundImage: `url('http://localost:3003/${other.img}')`
+                                    }}>
+                                    </div>
+                                    <div className="rel__info">
+                                        <Link to={`/product/${other._id}`} className="rel__title">{other.title}</Link>
+                                        <div className="rel__genre">{other.category.title}</div>
+                                        <div className="rel__review">
+                                            <img src={star} alt="" />
+                                            <div className="rel__review--bold">4.7</div>
+                                            <span>244 reviews</span>
+                                        </div>
+                                        <div className="rel__price">
+                                            <div className="rel__newprice">{other.sale>0?(other.price*(100-(other.sale))/100):other.price} so'm</div>
+                                            {other.sale>0?(<div className="rel__oldprice">{other.price} so'm</div>):''}
+                                        </div>
+                                        <button className="rel__cart">
+                                            <img src={vcart} alt="" />
+                                            Savatchaga
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="rel__price">
-                                    <div className="rel__newprice">$45.4</div>
-                                    <div className="rel__oldprice">$98.4</div>
-                                </div>
-                                <button className="rel__cart">
-                                    <img src={vcart} alt="" />
-                                    Add to cart
-                                </button>
-                            </div>
-                        </div>
-                        <div className="rel">
-                            <div className="rel__img">
-                                <img src={book} alt="" />
-                            </div>
-                            <div className="rel__info">
-                                <Link to='/' className="rel__title">Terrible Madness</Link>
-                                <div className="rel__genre">THRILLE, DRAMA, HORROR</div>
-                                <div className="rel__review">
-                                    <img src={star} alt="" />
-                                    <div className="rel__review--bold">4.7</div>
-                                    <span>244 reviews</span>
-                                </div>
-                                <div className="rel__price">
-                                    <div className="rel__newprice">$45.4</div>
-                                    <div className="rel__oldprice">$98.4</div>
-                                </div>
-                                <button className="rel__cart">
-                                    <img src={vcart} alt="" />
-                                    Add to cart
-                                </button>
-                            </div>
-                        </div>
+                            )
+                        })}
                     </div>
                 </div>
             </div>

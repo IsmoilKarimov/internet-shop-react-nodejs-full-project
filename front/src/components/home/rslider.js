@@ -44,7 +44,7 @@ const Rslider = () => {
                             }}></div>
                             <div className="rslider__name">{product.title}</div>
                             <div className="rslider__author">{product.author}</div>
-                            <Link to='/' className="btn btn__white rslider__link">
+                            <Link to={`/product/${product._id}`} className="btn btn__white rslider__link">
                                 {product.sale>0?(
                                     <div className="rslider__row">
                                         <div className="rslider__old">{product.price} so'm</div>

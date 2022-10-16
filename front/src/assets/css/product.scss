@@ -55,6 +55,11 @@
     }
     &__text {
         margin-bottom: 34px;
+        pre {
+            font-size: 16px;
+            font-family: 'Cairo', sans-serif;
+            white-space: pre-line
+        };
     }
     &__author{
         display: flex;

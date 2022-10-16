@@ -79,7 +79,7 @@ const Footer = () => {
                     <ul className="footer__menu half">
                         {categoryList.map(category => {
                             return (
-                                <li><Link to={`/category/${category._id}`}>{category.title}</Link></li>
+                                <li key={category._id}><Link to={`/category/${category._id}`}>{category.title}</Link></li>
                             )
                         })}
                     </ul>
