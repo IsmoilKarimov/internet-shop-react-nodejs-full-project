@@ -132,4 +132,9 @@ router.get('/products/sale',async(req,res)=> {
     res.send(products)
 })
 
+router.post('/newreview',async(req,res)=>{
+    console.log(req.files);
+    console.log(req.body);
+})
+
 module.exports = router
