@@ -32,15 +32,26 @@ router.post('/',async(req,res)=>{
     if(req.files){
         let files = req.files.img
         let img = []
-        await Promise.all(files.map(async(file) => {
-            const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
-            let filepath = `uploads/${uniquePreffix}_${file.name}`
-            await file.mv(filepath)
-            img.push(filepath)
-        }))
-        let product = await new Product({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
-        await product.save()
-        res.send(JSON.stringify('ok'))
+        const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
+        if(files.length>0){
+            await Promise.all(files.map(async(file) => {
+                let filepath = `uploads/${uniquePreffix}_${file.name}`
+                await file.mv(filepath)
+                img.push(filepath)
+            }))
+            let product = await new Product({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
+            await product.save()
+            res.send(JSON.stringify('ok'))
+        }else{
+            let filepath = `uploads/${uniquePreffix}_${files.name}`
+            await files.mv(filepath, async (err) => {           
+                img.push(filepath)
+                    if(err) res.send(JSON.stringify(err))
+                    let product = await new Product({title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status,img})
+                    await product.save()
+                    res.send(JSON.stringify('ok'))
+                })
+            }
     }else {
         res.send(JSON.stringify('error'))
     }

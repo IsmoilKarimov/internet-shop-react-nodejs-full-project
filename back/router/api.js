@@ -46,10 +46,24 @@ router.get('/products/get/:id',async(req,res)=> {
     if(req.params){
         let _id = req.params.id
         let product = await Product.findOne({_id}).populate('atributs.atribut').populate('category')
-        product.img = product.img[0]
-        res.send(product)
-    }else {
-        res.send(JSON.stringify('error'))
+        
+        let others = await Product.find({category:product.category})
+        .where({_id:{$ne:product._id}})                         
+        .select(['_id','title','price','sale','category','reviews'])
+        .populate('atributs.atribut')
+        .populate('category')
+        .limit(3)
+
+        product.img = product.img[0]        
+        others = others.map(item => {
+            // item.img = item.img[0]
+            return item
+        })     
+        
+        res.send({product,others})
+    
+    } else {
+        res.send(JSON.stringify('error'))           
     }
 })
 
@@ -92,8 +106,21 @@ router.get('/products/popular',async(req,res)=> {
     res.send(products)
 })
 
+router.get('/products/soon',async(req,res)=> {
+    let products = await Product.find({status:1,soon:1})
+    .select(['_id','title','img'])
+    .limit(6)
+    .sort({_id:-1})
+    
+    products = products.map(pro => {
+        pro.img = pro.img[0]
+        return pro
+    })
+    res.send(products)
+})
+
 router.get('/products/sale',async(req,res)=> {
-    let products = await Product.find({status:1,sale: { $gte: 0}})
+    let products = await Product.find({status:1,sale: { $gte: 1}})
     .select(['_id','title','img','category','price','sale','reviews'])
     .limit(12)
     .sort({_id:-1})
