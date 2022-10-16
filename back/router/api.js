@@ -48,15 +48,15 @@ router.get('/products/get/:id',async(req,res)=> {
         let product = await Product.findOne({_id}).populate('atributs.atribut').populate('category')
         
         let others = await Product.find({category:product.category})
-        .where({_id:{$ne:product._id}})                         
-        .select(['_id','title','price','sale','category','reviews'])
+        .where({_id:{$ne:product._id}})                      
+        .select(['title','price','sale','category','reviews','img'])
         .populate('atributs.atribut')
         .populate('category')
         .limit(3)
 
         product.img = product.img[0]        
         others = others.map(item => {
-            // item.img = item.img[0]
+            item.img = item.img[0]
             return item
         })     
         
