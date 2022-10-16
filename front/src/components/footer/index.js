@@ -72,7 +72,7 @@ const Footer = () => {
                         </li>
                     </ul>
                 </div>
-                <div className="footer__item">
+                <div className="footer__item half">
                     <div className="footer__title">
                     Kitoblar janrlari
                     </div>
@@ -84,21 +84,7 @@ const Footer = () => {
                         })}
                     </ul>
                 </div>
-                <div className="footer__item">
-                    <div className="footer__title">
-                    Tezkor havolalar
-                    </div>
-                    <ul className="footer__menu">
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                        <li><a href='#'>Roman</a></li>
-                    </ul>
-                </div>
-                <div className="foooter__item">
+                <div className="foooter__item half">
                     <div className="footer__title">Bizning do’kon</div>
                     <div className="footer__map"></div>
                     <div className="footer__contact">

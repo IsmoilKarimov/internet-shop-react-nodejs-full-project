@@ -40,6 +40,7 @@ button {
     font-size: 18px;
     font-weight: bold;
     border-radius: 14px;
+    padding: 15px 20px;
     cursor: pointer;
     &.btn__outline {
         border: 1px solid #f0e4f4;
@@ -103,6 +104,9 @@ button {
 }
 .mb-5 {
     margin-bottom: 80px;
+}
+.ml-auto {
+    margin-left: auto;
 }
 
 .htitle,

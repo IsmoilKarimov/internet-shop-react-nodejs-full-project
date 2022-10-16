@@ -383,12 +383,11 @@
     display: flex;
     margin-bottom: 30px;
     &__img {
-        img {
-           @include fb(140px);
-            border-radius: 14px;
-            height: 196px;
-            margin-right: 30px;
-       }
+        @include fb(140px);
+        @include bg;
+        border-radius: 14px;
+        height: 196px;
+        margin-right: 30px;
     }
     &__title {
         font-size: 20px;

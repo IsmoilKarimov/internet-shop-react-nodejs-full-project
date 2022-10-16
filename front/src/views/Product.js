@@ -201,9 +201,10 @@ const Product = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className=" reviews__top d-flex mb-2 align-items-center justify-content-between">
+                                        <div className=" reviews__top d-flex mb-2 align-items-center">
                                             <span>Showing 4 of 20 reviews</span>
-                                            <div className="cat__sort"> 
+                                            <button className="ml-auto btn btn__bg">Fikr qo'shish</button>
+                                            <div className="cat__sort">
                                                 <img src={sort} alt='' />
                                                 <select className="cat__select">
                                                     <option value=''>Narh kamayishi</option>
@@ -295,24 +296,24 @@ const Product = () => {
                     </div>
                     <div className="col-3 col-md-12">
                         <div className="htitle">Boshqa kitoblar</div>
-                        {others.map(other => {
+                        {others.map(item => {
                             return (
-                                <div className="rel" key={other._id}>
+                                <div className="rel" key={item._id}>
                                     <div className="rel__img" style={{
-                                        backgroundImage: `url('http://localost:3003/${other.img}')`
+                                        backgroundImage:`url('http://localhost:3003/${item.img}')`
                                     }}>
                                     </div>
                                     <div className="rel__info">
-                                        <Link to={`/product/${other._id}`} className="rel__title">{other.title}</Link>
-                                        <div className="rel__genre">{other.category.title}</div>
+                                        <Link to={`/product/${item._id}`} className="rel__title">{item.title}</Link>
+                                        <div className="rel__genre">{item.category.title}</div>
                                         <div className="rel__review">
                                             <img src={star} alt="" />
                                             <div className="rel__review--bold">4.7</div>
                                             <span>244 reviews</span>
                                         </div>
                                         <div className="rel__price">
-                                            <div className="rel__newprice">{other.sale>0?(other.price*(100-(other.sale))/100):other.price} so'm</div>
-                                            {other.sale>0?(<div className="rel__oldprice">{other.price} so'm</div>):''}
+                                            <div className="rel__newprice">{item.sale>0?(item.price*(100-(item.sale))/100):item.price} so'm</div>
+                                            {item.sale>0?(<div className="rel__oldprice">{item.price} so'm</div>):''}
                                         </div>
                                         <button className="rel__cart">
                                             <img src={vcart} alt="" />

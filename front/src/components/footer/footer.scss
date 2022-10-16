@@ -48,7 +48,6 @@
         &.half {
             display: flex;
             flex-wrap: wrap;
-            max-width: 300px;
             li {
                 @include fb(50%);
             }
@@ -100,6 +99,13 @@
             align-items: center;
             font-size: 16px;
             font-weight: 600;
+        }
+    }
+    &__item{
+        @include fb(25%);
+        padding-left: 5rem;
+        &.half{
+            @include fb(50%)
         }
     }
 }
