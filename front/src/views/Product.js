@@ -1,10 +1,11 @@
 /* eslint-disable eqeqeq */
-import React, { useEffect, useState } from "react";
-import Advan from "../components/advan";
-import '../components/breadcrumbs';
-import Breadcrumbs from "../components/breadcrumbs";
-import Sale from "../components/sale";
-import Sub from "../components/sub";
+import React, { useEffect, useState } from "react"
+import Advan from "../components/advan"
+import '../components/breadcrumbs'
+import Breadcrumbs from "../components/breadcrumbs"
+import Sale from "../components/sale"
+import Sub from "../components/sub"
+import Modal from "../components/product/modal"
 
 import '../assets/css/product.scss'
 
@@ -31,6 +32,7 @@ const Product = () => {
     const [product, setProduct] = useState([])
     const [atributs, setAtributs] = useState([])
     const [others, setOthers] = useState([])
+    const [modal, toggleModal] = useState(false)
 
     useEffect(()=> {
         window.scroll({
@@ -203,7 +205,7 @@ const Product = () => {
                                         </div>
                                         <div className=" reviews__top d-flex mb-2 align-items-center">
                                             <span>Showing 4 of 20 reviews</span>
-                                            <button className="ml-auto btn btn__bg">Fikr qo'shish</button>
+                                            <button onClick={()=> {toggleModal(true)}} className="ml-auto btn btn__bg">Fikr qo'shish</button>
                                             <div className="cat__sort">
                                                 <img src={sort} alt='' />
                                                 <select className="cat__select">
@@ -333,6 +335,7 @@ const Product = () => {
             </div>
             <Sale />
             <Sub />
+            {modal?(<Modal toggleModal={toggleModal} _id={product._id}/>):''}
         </>
     )
 }
