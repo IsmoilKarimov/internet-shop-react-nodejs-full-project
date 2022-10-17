@@ -217,78 +217,36 @@ const Product = () => {
                                             </div>
                                         </div>
                                         <div className="reviews__list">
-                                            <div className="reviews__box">
-                                                <div className="reviews__box--left">
-                                                    <div className="reviews__box--author">
-                                                        <div className="reviews__box--avatar">
-                                                            <img src={person} alt="" />
+                                            {product.reviews.map(review => {
+                                                return(
+                                                    <div className="reviews__box" key={review._id}>
+                                                        <div className="reviews__box--left">
+                                                            <div className="reviews__box--author">
+                                                                <div className="reviews__box--avatar" style={{
+                                                                    backgroundImage: `url('http://localhost:3003/${review.avatar}')`
+                                                                }}>
+                                                                    
+                                                                </div>
+                                                                <div>
+                                                                    <div className="reviews__box--name">{review.name}</div>
+                                                                    <div className="reviews__box--date">{review.createdAt}</div>
+                                                                </div>
+                                                            </div>
+                                                            <div className="reviews__box--text">{review.text}</div>
                                                         </div>
-                                                        <div>
-                                                            <div className="reviews__box--name">David Here</div>
-                                                            <div className="reviews__box--date">Jan 4th, 2022</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="reviews__box--text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</div>
-                                                </div>
-                                                <div className="reviews__box--right">
-                                                    <div className="reviews__box--value">4.0</div>
-                                                    <div className="reviews__box--stars">
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="reviews__box">
-                                                <div className="reviews__box--left">
-                                                    <div className="reviews__box--author">
-                                                        <div className="reviews__box--avatar">
-                                                            <img src={person} alt="" />
-                                                        </div>
-                                                        <div>
-                                                            <div className="reviews__box--name">David Here</div>
-                                                            <div className="reviews__box--date">Jan 4th, 2022</div>
+                                                        <div className="reviews__box--right">
+                                                            <div className="reviews__box--value">{review.mark}.0</div>
+                                                            <div className="reviews__box--stars">
+                                                                <img src={star} alt="" />
+                                                                <img src={star} alt="" />
+                                                                <img src={star} alt="" />
+                                                                <img src={star} alt="" />
+                                                                <img src={star} alt="" />
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div className="reviews__box--text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</div>
-                                                </div>
-                                                <div className="reviews__box--right">
-                                                    <div className="reviews__box--value">4.0</div>
-                                                    <div className="reviews__box--stars">
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="reviews__box">
-                                                <div className="reviews__box--left">
-                                                    <div className="reviews__box--author">
-                                                        <div className="reviews__box--avatar">
-                                                            <img src={person} alt="" />
-                                                        </div>
-                                                        <div>
-                                                            <div className="reviews__box--name">David Here</div>
-                                                            <div className="reviews__box--date">Jan 4th, 2022</div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="reviews__box--text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex</div>
-                                                </div>
-                                                <div className="reviews__box--right">
-                                                    <div className="reviews__box--value">4.0</div>
-                                                    <div className="reviews__box--stars">
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                        <img src={star} alt="" />
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                )
+                                            })}
                                             <div className="btn btn__bg btn__full">View More</div>
                                         </div>
                                     </div>

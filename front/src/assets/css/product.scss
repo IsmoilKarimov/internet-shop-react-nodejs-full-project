@@ -347,12 +347,16 @@
                     margin-bottom: 30px;
                 }
                 &--avatar {
-                    img {
-                        width: 50px;
-                        height: 50px;
-                        margin-right: 20px;
-                        border-radius: 14px;
-                    }
+                    display: inline-block;
+                    width: 50px;
+                    height: 50px;
+                    margin-right: 20px;
+                    border-radius: 14px;
+                    @include bg
+                }
+                &--author {
+                    display: flex;
+                    align-items: center;
                 }
                 &--name {
                     font-size: 18px;

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import axios from "axios";
 import React, { useState } from "react";
 
@@ -15,7 +16,11 @@ const Modal = ({_id,toggleModal}) => {
 
         axios.post('http://localhost:3003/api/newreview',formData)
         .then(res => {
-            console.log(res.data)
+            if(res.data=='ok'){
+                setStatus(true)
+            }else {
+                setStatus(false)
+            }
         })
     }
     
@@ -31,6 +36,7 @@ const Modal = ({_id,toggleModal}) => {
                         </div>
                     ):(
                         <form name="review" onSubmit={(event)=> {sendReview(event)}} data-id={_id}>
+                            <input type="hidden" name="_id" value={_id}/>
                             <input type="text" className="modal__input" name="name" placeholder="Ismingizni kiriting" />
                             <label htmlFor="avatar" className="modal__file btn">Rasmni tanlang</label>
                             <input type="file" name="avatar" id="avatar"/>
