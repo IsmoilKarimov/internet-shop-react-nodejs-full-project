@@ -1,0 +1,52 @@
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th class="width80">№</th>
+                        <th>Ismi</th>
+                        <th>Rasmi</th>
+                        <th>Bahosi</th>
+                        <th>Matni</th>
+                        <th>Vaqti</th>
+                        <th>Holati</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each product.reviews}}
+                    <tr>                                            
+                        <td><strong>{{index}}</strong></td>
+                        <td>{{name}}</td>                             
+                        <td><img src='/{{avatar}}' width="50" alt=""></td>                  
+                        <td>{{mark}}</td>                  
+                        <td>{{text}}</td>                  
+                        <td>{{createdAt}}</td>                  
+                        <td>
+                            <a href="/product/review/changestatus/{{@root.product._id}}/{{@index}}">{{{status}}}</a>
+                        </td>                   
+                        <td>
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-success light sharp" data-toggle="dropdown">
+                                    <svg width="20px" height="20px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="5" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="19" cy="12" r="2"></circle>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" onclick="return confirm('Qaroringiz qat\'iymi?')" href="/review/delete/{{_id}}">O'chirish</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

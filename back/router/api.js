@@ -133,8 +133,22 @@ router.get('/products/sale',async(req,res)=> {
 })
 
 router.post('/newreview',async(req,res)=>{
-    console.log(req.files);
-    console.log(req.body);
+    let {_id,name,mark,text} = req.body
+    if(req.files){
+        let file = req.files.avatar
+        const uniquePreffix = Date.now() + '-' + Math.round(Math.random * 1E9)
+        let filepath = `uploads/${uniquePreffix}_${file.name}`
+        file.mv(filepath, async (err) => {           
+            if(err) res.send(JSON.stringify(err))
+            let product = await Product.findOne({_id})
+            let review = {name,mark,text,avatar:filepath}
+            product.reviews.push(review)
+            await product.save()
+            res.send('ok')
+        })
+    }else {
+        res.send('error')
+    }
 })
 
 module.exports = router

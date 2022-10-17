@@ -26,7 +26,11 @@ const product = new Schema({
                 default: Date.now()
             },
             text: String,
-            mark: Number
+            mark: Number,
+            status: {
+                type:Number,
+                default:0
+            }
         }
     ],
     atributs: [         

@@ -3,8 +3,9 @@ const router = Router()
 const Product = require('../model/product')
 const Category = require('../model/category')
 const Atribut = require('../model/atribut')
+const auth = require('../middleware/auth')
 
-router.get('/',async(req,res)=>{
+router.get('/',auth,async(req,res)=>{
     let products = await Product.find().populate('category').sort({_id:-1}).lean()
     let categories = await Category.find().lean()
     let atributs = await Atribut.find().lean()
@@ -22,7 +23,7 @@ router.get('/',async(req,res)=>{
     })
 })
 
-router.post('/',async(req,res)=>{
+router.post('/',auth,async(req,res)=>{
     let {title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status} = req.body
     status = status || 0
     popular = popular || 0
@@ -67,7 +68,7 @@ router.get('/:id',async(req,res)=>{
     }
 })
 
-router.post('/save',async(req,res)=>{
+router.post('/save',auth,async(req,res)=>{
     try {
         let {_id,title,description,text,price,sale,category,reviews,atributs,cheap,popular,recom,soon,author,year,delivery,status} = req.body
         status = status || 0
@@ -95,10 +96,36 @@ router.post('/save',async(req,res)=>{
     }
 })
 
-router.get('/delete/:id',async(req,res)=>{
+router.get('/delete/:id',auth,async(req,res)=>{
     let _id = req.params.id 
     await Product.findByIdAndRemove({_id})
     res.redirect('/product')
+})
+
+router.get('/review/changestatus/:id/:index',auth,async(req,res)=>{
+    let _id = req.params.id
+    let index = req.params.index
+    let product = await Product.findOne({_id})
+    product.reviews[index].status = product.reviews[index].status == 0 ? 1 : 0
+    await product.save() 
+    res.redirect(`/product/view/${_id}`)
+})
+
+router.get('/view/:id',auth,async(req,res)=> {
+    let _id = req.params.id
+    let product = await Product.findOne({_id}).lean()
+    
+    product.reviews = product.reviews.map((review,index)=> {
+        review.index = index+1
+        review.createdAt = review.createdAt.toLocaleString()
+        review.status = review.status === 1 ? '<span class="badge light badge-success">Faol</span>' : '<span class="badge light badge-danger">Nofaol</span>'
+        return review   
+    })
+
+    res.render('product/show',{
+        title: `${product.title} sahifasi`,             
+        product
+    })
 })
 
 
