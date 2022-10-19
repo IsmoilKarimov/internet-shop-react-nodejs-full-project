@@ -7,6 +7,41 @@ const Review = require('../model/review')
 const News = require('../model/news')
 const Product = require('../model/product')
 
+
+const kirlot = (text) => {								
+    let lat = {'a':'а','q':'қ','s':'с','d':'д','e':'е','r':'р','f':'ф','t':'т','g':'г','y':'й','h':'ҳ','u':'у','j':'ж','i':'и','k':'к','o':'о','l':'л','p':'п','z':'з','x':'х','s':'с','v':'в','b':'б','n':'н','m':'м','ch':'ч',' ':' '}
+    let kir = {'а':'a','қ':'q','с':'s','д':'d','е':'e','р':'r','ф':'f','т':'t','г':'g','й':'y','ҳ':'h','у':'u','ж':'j','и':'i','к':'k','о':'o','л':'l','п':'p','з':'z','х':'x','с':'s','в':'v','б':'b','н':'n','м':'m','ш':'sh','ч':'ch', ' ':' '}
+    let res = ''
+    text = text.toLowerCase().split('')
+    let letterCount = 0
+    while (letterCount < text.length) {
+        if (text[letterCount]+text[letterCount+1]=='sh') {
+            res+='ш'; letterCount+=2; continue
+        }
+        if (text[letterCount]+text[letterCount+1]=='ch') {
+            res+='ч'; letterCount+=2; continue
+        }
+        if (text[letterCount]+text[letterCount+1]=='yo') {
+            res+='ё'; letterCount+=2; continue
+        }
+        if (text[letterCount]+text[letterCount+1]=='ya') {
+            res+='я'; letterCount+=2; continue
+        }
+        if (text[letterCount]+text[letterCount+1]=="o'") {
+            res+='ў'; letterCount+=2; continue
+        }
+        if (text[letterCount]+text[letterCount+1]=="g'") {
+            res+='ғ'; letterCount+=2; continue
+        }
+        if (lat[text[letterCount]]) res+=lat[text[letterCount]]
+        if (kir[text[letterCount]]) res+=kir[text[letterCount]]
+        letterCount++
+    }
+    return res
+}
+
+
+
 router.get('/category/all',async(req,res)=>{
     let category = await Category.find({status:1})
     res.send(category)
@@ -46,6 +81,9 @@ router.get('/products/get/:id',async(req,res)=> {
     if(req.params){
         let _id = req.params.id
         let product = await Product.findOne({_id}).populate('atributs.atribut').populate('category')
+        
+        product.reviews = product.reviews.filter(review => review.status == 1)
+
         
         let others = await Product.find({category:product.category})
         .where({_id:{$ne:product._id}})                      
@@ -149,6 +187,48 @@ router.post('/newreview',async(req,res)=>{
     }else {
         res.send('error')
     }
+})
+
+router.get('/category/byid/:id',async(req,res)=>{
+    let _id = req.params.id 
+    let category = await Category.findOne({_id})
+    let products = await Product.find({category:_id,status:1})
+    .select(['_id','title','description','price','sale','reviews','img','author','year'])
+
+    products = products.map(product => {
+        product.img = product.img[0]
+        return product
+    })
+
+    res.send({category,products})
+})
+
+router.post('/search',async(req,res)=> {
+    let {text} = req.body
+    let othertitle = kirlot(text)
+    let products = await Product.find({
+        $or: [
+            {
+                'title': {
+                    $regex: new RegExp(text.toLowerCase(), 'i')
+                }
+            },
+            {
+                'title': {
+                    $regex: new RegExp(othertitle.toLowerCase(), 'i')
+                }
+            }
+        ]
+    })
+    .sort({_id:-1})
+    .limit(10)
+    .lean()
+    if(products.length>0){
+        res.send(products)
+    }else{
+        res.send([])
+    }
+
 })
 
 module.exports = router
