@@ -44,6 +44,12 @@ const Product = () => {
         .then(res => {
             let data = res.data
             let {product,others} = data
+            let reviews = product.reviews.reverse()
+            reviews.map(review => {
+                let date = new Date(review.createdAt)
+                review.createdAt = `${date.getHours()}:${date.getMinutes()} ${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+                return review
+            })
             setProduct(product)
             setOthers(others)
             setAtributs(product.atributs)
@@ -204,20 +210,15 @@ const Product = () => {
                                             </div>
                                         </div>
                                         <div className=" reviews__top d-flex mb-2 align-items-center">
-                                            <span>Showing 4 of 20 reviews</span>
+                                            <span>Fikrlar ro'yhati: {product.reviews.length}</span>
                                             <button onClick={()=> {toggleModal(true)}} className="ml-auto btn btn__bg">Fikr qo'shish</button>
-                                            <div className="cat__sort">
-                                                <img src={sort} alt='' />
-                                                <select className="cat__select">
-                                                    <option value=''>Narh kamayishi</option>
-                                                    <option value=''>Narh kamayishi</option>
-                                                    <option value=''>Narh kamayishi</option>
-                                                    <option value=''>Narh kamayishi</option>
-                                                </select>
-                                            </div>
                                         </div>
                                         <div className="reviews__list">
-                                            {product.reviews.map(review => {
+                                            {product.reviews.map(review => { 
+                                                let img = []
+                                                for(let i=1; i<=review.mark; i++){
+                                                    img.push( <img src={star} alt="" key={i} />)
+                                                }
                                                 return(
                                                     <div className="reviews__box" key={review._id}>
                                                         <div className="reviews__box--left">
@@ -237,11 +238,7 @@ const Product = () => {
                                                         <div className="reviews__box--right">
                                                             <div className="reviews__box--value">{review.mark}.0</div>
                                                             <div className="reviews__box--stars">
-                                                                <img src={star} alt="" />
-                                                                <img src={star} alt="" />
-                                                                <img src={star} alt="" />
-                                                                <img src={star} alt="" />
-                                                                <img src={star} alt="" />
+                                                                {img}
                                                             </div>
                                                         </div>
                                                     </div>

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import Advan from "../components/advan";
 import Breadcrumbs from "../components/breadcrumbs";
 import Sale from "../components/sale";
@@ -12,11 +12,26 @@ import '../assets/css/category.scss';
 //images
 import sort from '../assets/img/sort.svg'
 import List from "../components/product/list";
+import axios from "axios";
 
 const Category = () => {
 
     // const [value, setValue] = useState({ min: 50, max: 1000 },)
     const [toggleProduct, setToggleProduct] = useState(false)
+    const [category,setCategory] = useState([])
+    const [products,setProducts] = useState([])
+
+    let {id} = useParams()
+
+    useEffect(()=>{
+        axios.get(`http://localhost:3003/api/category/byid/${id}`)
+        .then(res => {
+            if(res.data){
+                setCategory(res.data.category)
+                setProducts(res.data.products)
+            }
+        })
+    },[id])
     
     return(
         <>
@@ -86,7 +101,7 @@ const Category = () => {
                         <button className="btn btn__outline btn__full">Tozalash</button>
                     </div>
                     <div className="col-9 col-md-12"> 
-                        <div className="btitle">Romanlar</div>
+                        <div className="btitle">{category.title}</div>
                         <div className="cat__tool">
                             <ul className="cat__tool--list">
                                 <li><Link to='/' className="active">Today</Link></li>
@@ -119,7 +134,15 @@ const Category = () => {
                             </div>
                         </div>  
                         <div className="row">
-                            {toggleProduct?(<Grid />):(<List />)}
+                            {toggleProduct?(
+                                    <Grid />
+                                ):(
+                                    products.map(product => {
+                                        return(
+                                            <List product={product} key={product._id}/>
+                                        )
+                                    })
+                                )}
                         </div>
                         <div className="d-flex justify-content-between align-items-center">
                             <div className="res">Showing 12 from 50 data</div>

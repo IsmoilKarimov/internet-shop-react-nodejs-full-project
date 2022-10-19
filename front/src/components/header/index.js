@@ -1,22 +1,51 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './header.scss'
 
 // images
 import logo from '../../assets/img/logo.svg'
 import menu from '../../assets/img/menu.svg'
 import down from '../../assets/img/down.svg'
-import search from '../../assets/img/search.svg'
+import searchimg from '../../assets/img/search.svg'
 import fav from '../../assets/img/fav.svg'
 import cart from '../../assets/img/cart.svg'
 import user from '../../assets/img/user.svg'
 import axios from "axios";
 
+
+
+
 const Header = () => {
 
     const [catBtn, SetCatBtn] = useState(false)
     const [categoryList, setCategoryList] = useState([])
+    const [result, setResult] = useState([])
+    const [searchText, setSearchText] = useState('')
+    const history = useNavigate()
+    
+    const redir = (link) => {
+        setResult([])
+        setSearchText('')
+        history(link)
+    }
+    
+    const search = (text) => {
+        setSearchText(text)
+        if(text.length>0){
+            axios.post('http://localhost:3003/api/search',{text})
+            .then(res => {
+                if(res.data.length>0){
+                    setResult(res.data)
+                }else {
+                    setResult([])
+                }
+            })
+        }else {
+            setResult([])
+        }
+    }
+
     
     useEffect(()=>{
         axios.get('http://localhost:3003/api/category/all')
@@ -51,9 +80,30 @@ const Header = () => {
                             })}
                         </ul>
                     </button>
-                    <input type='text' className="header__input" placeholder="Qidiruv" />
+                    <div className="header__searchbox">
+                        <input type='text' 
+                            className="header__input" 
+                            onInput = {(event) => {search(event.target.value)} }
+                            value={searchText}
+                            placeholder="Qidiruv" 
+                        />
+                        {result.length>0?(
+                            <ul className="header__result">
+                                {result.map(item => {
+                                    return(
+                                        <li key={item._id}>
+                                            <span className="header__result--link" onClick={()=> {redir(`/product/${item._id}`)}}>
+                                                <span className="header__result--title">{item.title}</span>
+                                                <span className="header__result--price">{item.price} so'm</span>
+                                            </span>
+                                        </li>
+                                    )
+                                })}
+                            </ul>
+                        ):''}
+                    </div>
                     <button className="header__find btn">
-                        <img src={search} alt='' />
+                        <img src={searchimg} alt='' />
                     </button>
                  </div>
                  <Link to='/' className="header__btn btn btn__outline">

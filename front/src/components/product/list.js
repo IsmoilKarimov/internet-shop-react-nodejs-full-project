@@ -2,62 +2,69 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // imgs
-import book from '../../assets/img/book.jpg'
+// import book from '../../assets/img/book.jpg'
 import cart from '../../assets/img/cart.svg'
 import star from '../../assets/img/star.svg'
 
-const List = () => {
+const List = ({product}) => {
+
+    let average = 0
+    if(product.reviews.length>0){
+        product.reviews.forEach(review => {
+            average += review.mark
+        })
+        average = Math.floor(average/product.reviews.length*10)/10
+    }
+
+    let stars = []
+    for(let i=1; i<=Math.ceil(average); i++){
+        stars.push(<img src={star} alt="" />)
+    }
+
     return(
         <div className="lprobox">
-            <div className="lprobox__img" style={{
-                backgroundImage: `url(${book})`
-            }}></div>
+            <Link to={`/product/${product._id}`} className="lprobox__img" style={{
+                backgroundImage: `url('http://localhost:3003/${product.img}')`
+            }}></Link>
             <div className="lprobox__right">
                 <div className="lprobox__top">
                     <div>
-                        <div className="lprobox__title">Thunder Stunt</div>
-                        <div className="lprobox__genre">ADVANTURE, SCIENCE, COMEDY</div>
+                        <Link to={`/product/${product._id}`} className="lprobox__title">{product.title}</Link>
                     </div>
                     <div>
                         <div className="lprobox__stars">
-                            <img src={star} alt="" />
-                            <img src={star} alt="" />
-                            <img src={star} alt="" />
-                            <img src={star} alt="" />
-                            <img src={star} alt="" />
+                            {stars}
                         </div>
                         <div className="lprobox__review">
-                            <span className="lprobox__review--value">4.0</span>
-                            <span className="lprobox__review--count"> 235 Reviews</span>  
+                            <span className="lprobox__review--value">{average}</span>
+                            <span className="lprobox__review--count"> {product.reviews.length} Fikrlar</span>  
                         </div>
                     </div>
                 </div>
-                <div className="lprobox__text">
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-                </div>
+                <div className="lprobox__text">{product.description}</div>
                 <div className="d-flex align-items-center mb-2 mt-1">
-                    <div className="lprobox__newprice">$ 84.78</div>
-                    <div className="lprobox__oldprice">$90.00</div>
-                    <Link to='/' className="lprobox__promo">Get 20% Discount for today</Link>
+                    <div className="lprobox__newprice">
+                        {product.sale>0?(product.price*(100-product.sale)/100):(product.price)} so'm
+                    </div>
+                    <div className="lprobox__oldprice">
+                        {product.sale>0?(product.price + ' so`m'):('')}
+                    </div>
+                    {/* <Link to='/' className="lprobox__promo">Get 20% Discount for today</Link>
                     <Link to='/' className="lprobox__promo">50% OFF Discount</Link>
-                    <button className="lprobox__more">See 2+ promos</button>
+                    <button className="lprobox__more">See 2+ promos</button> */}
                 </div>
                 <div className="d-flex align-items-center lprobox__bottom">
                     <div className="lprobox__item">
-                        <div className="lprobox__name">Written by</div>
-                        <div className="lprobox__value">Kevin Smiley</div>
-                    </div >                
+                        <div className="lprobox__name">Muallif</div>
+                        <div className="lprobox__value">{product.author}</div>
+                    </div >               
                     <div className="lprobox__item">
-                        <div className="lprobox__name">Publisher</div>
-                        <div className="lprobox__value">Printarea Studios</div>
-                    </div>                
-                    <div className="lprobox__item">
-                        <div className="lprobox__name">Year</div>
-                        <div className="lprobox__value">2019</div>
+                        <div className="lprobox__name">Yozilgan yili</div>
+                        <div className="lprobox__value">{product.year}</div>
                     </div>       
                     <div className="btn btn__bg lprobox__button">
                         <img src={cart} alt="" />
-                        Add to cart    
+                        Savatchaga    
                     </div>         
                     <div className="btn btn__outline lprobox__fav">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none"  xmlns="http://www.w3.org/2000/svg">
