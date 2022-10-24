@@ -74,6 +74,12 @@ button {
             color: #fff;
         }
     }
+    &.added {
+        path{
+            fill: #fff;
+        }
+        background-color: $violet;
+    }
 }
 .mt-1 {
     margin-top: 16px;

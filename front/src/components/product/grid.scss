@@ -107,6 +107,7 @@
     border-radius: 14px;
     display: flex;
     margin-bottom: 30px;
+    width: 100%;
     &__img {
         @include fb(229px);
         border-radius: 20px;

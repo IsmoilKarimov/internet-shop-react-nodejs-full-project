@@ -1,6 +1,7 @@
 /* eslint-disable array-callback-return */
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from 'react-cookie';
 import './header.scss'
 
 // images
@@ -17,12 +18,15 @@ import axios from "axios";
 
 
 const Header = () => {
-
+    const [cookies, setCookie] = useCookies(['cart','fav']);
     const [catBtn, SetCatBtn] = useState(false)
     const [categoryList, setCategoryList] = useState([])
     const [result, setResult] = useState([])
     const [searchText, setSearchText] = useState('')
     const history = useNavigate()
+
+    const [cartCount, setCartCount] = useState(0)
+    const [favCount, setFavCount] = useState(0)
     
     const redir = (link) => {
         setResult([])
@@ -48,12 +52,22 @@ const Header = () => {
 
     
     useEffect(()=>{
+        let count = 0
+        if(cookies.cart){
+            count = cookies.cart.length || 0
+        }
+        let fav = 0
+        if(cookies.fav){
+            fav = cookies.fav.length || 0
+        }
+        setCartCount(count)
+        setFavCount(fav)
         axios.get('http://localhost:3003/api/category/all')
         .then(res => {
             if(res.data.length > 0)
                 setCategoryList(res.data)
         })
-    },[])
+    },[cookies])
 
     return(
         <header className="header">
@@ -105,13 +119,17 @@ const Header = () => {
                     <button className="header__find btn">
                         <img src={searchimg} alt='' />
                     </button>
-                 </div>
+                </div>
                  <Link to='/' className="header__btn btn btn__outline">
-                     <span className="header_btn--count">35</span>
+                    {favCount>0?(
+                        <span className="header_btn--count">{favCount}</span>
+                    ):('')}
                      <img src={fav} alt="" />
                  </Link>
-                 <Link to='/' className="header__btn btn btn__outline">
-                     <span className="header__btn--count">4</span> 
+                 <Link to='/cart' className="header__btn btn btn__outline">
+                    {cartCount>0?(
+                        <span className="header__btn--count">{cartCount}</span> 
+                    ):('')}
                      <img src={cart} alt="" />
                  </Link>
                  <button className="header__user btn btn__bg btn__shadow">

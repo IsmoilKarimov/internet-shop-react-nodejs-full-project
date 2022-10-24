@@ -7,7 +7,7 @@ import Sub from "../components/sub";
 import Grid from "../components/product/grid";
 // import InputRange from 'react-input-range';
 
-import '../assets/css/category.scss';
+import '../assets/css/category.scss';               
 
 //images
 import sort from '../assets/img/sort.svg'
@@ -24,6 +24,11 @@ const Category = () => {
     let {id} = useParams()
 
     useEffect(()=>{
+        window.scroll({
+            top: 100,
+            left: 100,
+            behavior: 'smooth'
+          });
         axios.get(`http://localhost:3003/api/category/byid/${id}`)
         .then(res => {
             if(res.data){
