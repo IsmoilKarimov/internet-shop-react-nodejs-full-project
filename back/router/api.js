@@ -145,16 +145,19 @@ router.get('/products/popular',async(req,res)=> {
 })
 
 router.get('/products/soon',async(req,res)=> {
-    let products = await Product.find({status:1,soon:1})
-    .select(['_id','title','img'])
+    let product = await Product.find({status:1,soon:1}).populate('category')
+    .select(['_id','title','img','price','sale','description','category','author','year'])
     .limit(6)
     .sort({_id:-1})
-    
-    products = products.map(pro => {
-        pro.img = pro.img[0]
-        return pro
-    })
-    res.send(products)
+    if(product){
+        product = product.map(pro => {
+            pro.img = pro.img[0]
+            return pro
+        })
+        res.send(product)
+    } else {                     
+        res.send([])
+    }
 })
 
 router.get('/products/sale',async(req,res)=> {
