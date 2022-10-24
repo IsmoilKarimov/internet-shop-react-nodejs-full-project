@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>{{promo.title}}</h1>
+    <button class="btn btn-success" data-toggle="modal" data-target="#addbook">Kitob qo'shish</button>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-responsive-md">
+                <thead>
+                    <tr>
+                        <th class="width80">№</th>
+                        <th>Rasmi</th>
+                        <th>Nomi</th>
+                        <th>Bahosi</th>
+                        <th>Holati</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each promo.products}}
+                    <tr>                                            
+                        <td><strong>{{index}}</strong></td>
+                        <td><img src='/{{img}}' width="50" alt=""></td>                                
+                        <td>{{title}}</td>                             
+                        <td>{{price}} so'm</td>                
+                        <td>
+                            <a href="/promo/delbook/{{@root.promo._id}}/{{@index}}" class="btn btn-danger light sharp" onclick="return confirm('Qaroringiz qat\'iymi?')" >
+                                <i class="flaticon-381-trash-1"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addbook" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aksiyaga kitob qo'shish</h5>
+                <button type="button" class="close" data-dismiss="modal"><span>×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form name="addbook" action="/promo/addbook/" method="post">
+                    <input type="hidden" name="_id" value="{{promo._id}}">
+                    <div class="form-group">
+                        <select name="product" class="form-control default-select">
+                            {{#each products}}
+                                <option value="{{_id}}">{{title}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <button class="btn btn-success">Kiritish</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

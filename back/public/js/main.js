@@ -8,7 +8,6 @@ function addData(formData, link){
         body: JSON.stringify(formData)
     }).then(res => res.json())
     .then(newData => {
-        // console.log(newData);
         if(newData == 'ok'){ 
             location.reload()
         }
