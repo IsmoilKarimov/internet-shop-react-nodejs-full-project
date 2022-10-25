@@ -120,7 +120,7 @@ const Header = () => {
                         <img src={searchimg} alt='' />
                     </button>
                 </div>
-                 <Link to='/' className="header__btn btn btn__outline">
+                 <Link to='/favourite' className="header__btn btn btn__outline">
                     {favCount>0?(
                         <span className="header_btn--count">{favCount}</span>
                     ):('')}
