@@ -2,6 +2,7 @@ const {Router} = require('express')
 const router = Router()
 const auth = require('./middleware/auth')
 
+// routes
 const userRouter = require('./router/user')
 const categoryRouter = require('./router/category')
 const advanRouter = require('./router/advan')

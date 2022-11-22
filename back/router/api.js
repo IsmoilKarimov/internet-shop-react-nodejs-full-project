@@ -234,14 +234,14 @@ router.post('/search',async(req,res)=> {
 
 })
 
-router.post('/products/ids',async(req,res)=>{
-    // let {ids} = req.body
-    let products = await Product.find()
-    .select(['_id','title','price','sale','category','img'])
-    .populate('category')
-    .lean()
+// router.post('/products/ids',async(req,res)=>{
+//     // let {ids} = req.body
+//     let products = await Product.find()
+//     // .select(['_id','title','price','sale','category','img'])
+//     // .populate('category')
+//     .lean()
 
-    res.send(products)
-})
+//     res.send(products)
+// })
 
 module.exports = router
