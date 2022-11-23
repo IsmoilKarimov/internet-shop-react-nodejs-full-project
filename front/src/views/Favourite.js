@@ -46,11 +46,11 @@ const Favourite = () => {
                             </div>  
                             <div className="sale__title">{product.title}</div> 
                             <div className="sale__genre">{product.category.title}</div>
-                            <div className="sale__price">
+                            <div className="sale__price">           
                                 <div className="sale__old">{product.price.toLocaleString()} so’m</div>    
                                 <div className="sale__new">{(product.price*(100 - product.sale)/100).toLocaleString()} so’m</div>    
                             </div> 
-                        </NavLink>   
+                        </NavLink>
                     </div>
                 )
             })}

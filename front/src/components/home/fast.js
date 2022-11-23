@@ -5,13 +5,20 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 //images
-import book from '../../assets/img/book.jpg'
+//  import book from '../../assets/img/book.jpg'
 
 const Fast = () => {
     
     const [promo, setPromo] = useState({
         products: []
     })
+    const [time,setTime] = useState({
+        day:0,
+        hour:0,
+        minute:0,
+        seconds:0
+    })
+
 
     useEffect(()=>{
         axios.get('http://localhost:3003/promo/last')
@@ -21,9 +28,48 @@ const Fast = () => {
                 product.img = product.img[0]
                 return product
             })
+            let date = new Date(p.deadline)
+            setTime({
+                day: date.getDay(),
+                hour:date.getHours(),
+                minute:date.getMinutes(),
+                seconds:date.getSeconds()
+            })
+
             setPromo(res.data)
+            let d = date.getDay()
+            let h = date.getHours()
+            let m = date.getMinutes()
+            let s = date.getSeconds()
+            
+            let timer = setInterval(() => {
+                
+                if(s === 0 && m === 0 && h === 0 && d === 0){
+                    clearInterval(timer)
+                }
+                if(s === 0 ){
+                    m--
+                    s = 60
+                }
+                if(m === 0 ){
+                    h--
+                    m = 60
+                }
+                if(h === 0 ){
+                    d--
+                    h = 24
+                }
+                
+                setTime({
+                    day:d,
+                    hour:h,
+                    minute:m,
+                    seconds:s
+                })
+                s--
+            }, 1000)
         })
-    })
+    },[])
 
     return(
         <div className="fast">
@@ -32,19 +78,19 @@ const Fast = () => {
                 <div className="fast__stitle text-center">{promo.description}</div>
                 <div className="fast__timer">
                     <div className="fast__items">
-                        <div className="fast__val">02</div>
+                        <div className="fast__val">{time.day}</div>
                         <div className="fast__name">Kun</div>
                     </div>
                     <div className="fast__items">
-                        <div className="fast__val">05</div>
+                        <div className="fast__val">{time.hour}</div>
                         <div className="fast__name">Soat</div>
                     </div>
                     <div className="fast__items">
-                        <div className="fast__val">42</div>
+                        <div className="fast__val">{time.minute}</div>
                         <div className="fast__name">Minut</div>
                     </div>
                     <div className="fast__items">
-                        <div className="fast__val">19</div>
+                        <div className="fast__val">{time.seconds}</div>
                         <div className="fast__name">Soniya</div>
                     </div>
                 </div>
