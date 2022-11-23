@@ -18,4 +18,4 @@ const promo = new Schema({
     }]
 })
 
-module.exports = model('Promo',promo)
+module.exports = model('Promo', promo)

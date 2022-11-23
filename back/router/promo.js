@@ -19,6 +19,30 @@ router.get('/',auth,async(req,res)=>{
     })
 })
 
+router.get('/last',async(req,res)=>{
+    let promo = await Promo.findOne({status:1})
+    .populate('products')
+    .populate({
+        path : 'products',
+        populate : {
+          path : 'category'
+        }
+    })
+    .sort({_id:-1})
+    .limit(1)
+    res.send(promo)
+})
+
+router.get('/:id',async(req,res)=>{
+    if(req.params.id){  
+        let _id = req.params.id 
+        let promo = await Promo.findOne({_id})
+        res.send(promo)
+    } else {
+        res.send(JSON.stringify('error'))
+    }
+})
+
 // ma'lumot qo'shish
 router.post('/',async(req,res)=>{ 
     try {
@@ -75,28 +99,11 @@ router.post('/addbook',auth,async(req,res)=>{
     res.redirect(`/promo/show/${_id}`)
 })
  
-router.get('/last',async(req,res)=>{
-    let promo = await Promo.findOne({status:1})
-    .populate('products')
-    .populate({
-        path : 'products',
-        populate : {
-          path : 'category'
-        }
-    })
-    .sort({_id:-1})
-    .limit(1)
-    res.send(promo)
-})
-
-router.get('/:id',async(req,res)=>{
-    if(req.params.id){  
-        let _id = req.params.id 
-        let promo = await Promo.findOne({_id})
-        res.send(promo)
-    } else {
-        res.send(JSON.stringify('error'))
-    }
+// MA'LUMOTNI O'CHIRISH
+router.get('/delete/:id',auth,async(req,res)=>{
+    let _id = req.params.id
+    await Promo.findByIdAndRemove({_id})
+    res.redirect('/promo')
 })
 
 router.put('/save',async(req,res)=>{
@@ -104,12 +111,6 @@ router.put('/save',async(req,res)=>{
     status = status || 0
     await Promo.findByIdAndUpdate(_id,{title,description,deadline,status})
     res.send(JSON.stringify('ok'))
-})
-
-router.get('/delete/:id',auth,async(req,res)=>{
-    let _id = req.params.id
-    await Promo.findByIdAndRemove({_id})
-    res.redirect('/promo')
 })
 
 module.exports = router

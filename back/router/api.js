@@ -131,19 +131,6 @@ router.get('/products/recom',async(req,res)=> {
     res.send(products)
 })
 
-router.get('/products/popular',async(req,res)=> {
-    let products = await Product.find({status:1,popular:1})
-    .select(['_id','title','img'])
-    .limit(12)
-    .sort({_id:-1})
-    
-    products = products.map(pro => {
-        pro.img = pro.img[0]
-        return pro
-    })
-    res.send(products)
-})
-
 router.get('/products/soon',async(req,res)=> {
     let product = await Product.find({status:1,soon:1}).populate('category')
     .select(['_id','title','img','price','sale','description','category','author','year'])
@@ -158,6 +145,33 @@ router.get('/products/soon',async(req,res)=> {
     } else {                     
         res.send([])
     }
+})
+
+router.get('/category/byid/:id',async(req,res)=>{
+    let _id = req.params.id 
+    let category = await Category.findOne({_id})
+    let products = await Product.find({category:_id,status:1})
+    .select(['_id','title','description','price','sale','reviews','img','author','year'])
+
+    products = products.map(product => {
+        product.img = product.img[0]
+        return product
+    })
+
+    res.send({category,products})
+})
+
+router.get('/products/popular',async(req,res)=> {
+    let products = await Product.find({status:1,popular:1})
+    .select(['_id','title','img'])
+    .limit(12)
+    .sort({_id:-1})
+    
+    products = products.map(pro => {
+        pro.img = pro.img[0]
+        return pro
+    })
+    res.send(products)
 })
 
 router.get('/products/sale',async(req,res)=> {
@@ -192,20 +206,6 @@ router.post('/newreview',async(req,res)=>{
     }
 })
 
-router.get('/category/byid/:id',async(req,res)=>{
-    let _id = req.params.id 
-    let category = await Category.findOne({_id})
-    let products = await Product.find({category:_id,status:1})
-    .select(['_id','title','description','price','sale','reviews','img','author','year'])
-
-    products = products.map(product => {
-        product.img = product.img[0]
-        return product
-    })
-
-    res.send({category,products})
-})
-
 router.post('/search',async(req,res)=> {
     let {text} = req.body
     let othertitle = kirlot(text)
@@ -234,14 +234,15 @@ router.post('/search',async(req,res)=> {
 
 })
 
-// router.post('/products/ids',async(req,res)=>{
-//     // let {ids} = req.body
-//     let products = await Product.find()
-//     // .select(['_id','title','price','sale','category','img'])
-//     // .populate('category')
-//     .lean()
+router.post('/products/ids',async(req,res)=>{
+    let {ids} = req.body
+    let products = await Product
+    .find({_id: {$in:ids}})
+    .select(['_id','title','price','sale','category','img'])
+    .populate('category')
+    .lean()
 
-//     res.send(products)
-// })
+    res.send(products)
+})
 
 module.exports = router

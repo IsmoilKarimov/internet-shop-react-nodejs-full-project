@@ -123,7 +123,7 @@ router.get('/view/:id',auth,async(req,res)=> {
     })
 
     res.render('product/show',{
-        title: `${product.title} sahifasi`,             
+        title: `${product.title} sahifasi`,
         product
     })
 })
